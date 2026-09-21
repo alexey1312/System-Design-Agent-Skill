@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 480" role="img" aria-labelledby="title desc">
+  <title id="title">System Design Agent Skills</title>
+  <desc id="desc">Scope, estimate, design, deep-dive and wrap up any system design question, grounded in the System Design Interview books.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="0.55" stop-color="#134e4a"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="480" fill="url(#bg)"/>
+
+  <!-- architecture sketch: client -> LB -> servers -> cache / DB shards on a ring -->
+  <g transform="translate(790 70)" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="0" y="0" width="420" height="340" rx="30" fill="url(#panel)" stroke="#e2e8f0" stroke-width="5"/>
+    <!-- client -->
+    <rect x="175" y="28" width="70" height="30" rx="8" fill="none" stroke="#e2e8f0" stroke-width="5"/>
+    <path d="M210 58v22" stroke="#5eead4" stroke-width="5"/>
+    <!-- load balancer -->
+    <rect x="160" y="80" width="100" height="30" rx="15" fill="#5eead4" fill-opacity="0.25" stroke="#5eead4" stroke-width="5"/>
+    <path d="M210 110v14M210 124H100v14M210 124h110v14M210 124v14" stroke="#5eead4" stroke-width="5" fill="none"/>
+    <!-- servers -->
+    <rect x="65" y="138" width="70" height="30" rx="8" fill="none" stroke="#e2e8f0" stroke-width="5"/>
+    <rect x="175" y="138" width="70" height="30" rx="8" fill="none" stroke="#e2e8f0" stroke-width="5"/>
+    <rect x="285" y="138" width="70" height="30" rx="8" fill="none" stroke="#e2e8f0" stroke-width="5"/>
+    <path d="M100 168v28M210 168v28M320 168v28" stroke="#5eead4" stroke-width="5"/>
+    <!-- cache -->
+    <rect x="30" y="196" width="140" height="30" rx="8" fill="#5eead4" fill-opacity="0.15" stroke="#5eead4" stroke-width="5"/>
+    <!-- queue -->
+    <rect x="250" y="196" width="140" height="30" rx="8" fill="#5eead4" fill-opacity="0.15" stroke="#5eead4" stroke-width="5"/>
+    <path d="M100 226v22M320 226v22" stroke="#5eead4" stroke-width="5"/>
+    <!-- sharded store on a ring -->
+    <ellipse cx="210" cy="285" rx="150" ry="30" fill="none" stroke="#5eead4" stroke-width="5"/>
+    <circle cx="70" cy="278" r="9" fill="#e2e8f0"/>
+    <circle cx="140" cy="312" r="9" fill="#e2e8f0"/>
+    <circle cx="280" cy="312" r="9" fill="#e2e8f0"/>
+    <circle cx="350" cy="278" r="9" fill="#e2e8f0"/>
+  </g>
+
+  <g font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" fill="#f8fafc">
+    <text x="72" y="150" font-size="62" font-weight="700">System Design</text>
+    <text x="72" y="220" font-size="62" font-weight="700">Agent Skills</text>
+    <text x="72" y="282" font-size="26" fill="#ccfbf1">Scope · estimate · design · deep dive · wrap up</text>
+    <text x="72" y="322" font-size="22" fill="#99f6e4">Six skills, 28 case studies, one deterministic calculator,</text>
+    <text x="72" y="352" font-size="22" fill="#99f6e4">grounded in the System Design Interview books.</text>
+    <text x="72" y="410" font-size="18" fill="#5eead4">npx skills add alexey1312/System-Design-Agent-Skill</text>
+  </g>
+</svg>

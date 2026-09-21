@@ -1,0 +1,70 @@
+[
+  {
+    "query": "design a notification system sending 10M push, 1M SMS and 5M emails a day",
+    "should_trigger": true
+  },
+  {
+    "query": "design whatsapp: one-on-one chat, groups of 100, online presence, multi-device",
+    "should_trigger": true
+  },
+  {
+    "query": "design gmail at 1 billion users, including search",
+    "should_trigger": true
+  },
+  {
+    "query": "design a real-time leaderboard for a mobile game with 25M monthly players",
+    "should_trigger": true
+  },
+  {
+    "query": "design ad click aggregation: count clicks per ad per minute, top 100 ads, exactly-once",
+    "should_trigger": true
+  },
+  {
+    "query": "websocket vs long polling vs SSE for a messaging app, which and why",
+    "should_trigger": true
+  },
+  {
+    "query": "how do we deduplicate notifications when the provider times out and we retry",
+    "should_trigger": true
+  },
+  {
+    "query": "watermarks and late events in a streaming aggregation pipeline, how long should the window wait",
+    "should_trigger": true
+  },
+  {
+    "query": "our email deliverability is terrible, everything lands in spam - what does a mail service need",
+    "should_trigger": true
+  },
+  {
+    "query": "send a push notification with firebase admin sdk in node",
+    "should_trigger": false
+  },
+  {
+    "query": "my socket.io client disconnects every 60 seconds behind nginx",
+    "should_trigger": false
+  },
+  {
+    "query": "write a flink job that counts words",
+    "should_trigger": false
+  },
+  {
+    "query": "configure postfix to relay through sendgrid",
+    "should_trigger": false
+  },
+  {
+    "query": "design a hotel booking system",
+    "should_trigger": false
+  },
+  {
+    "query": "ZADD is not updating the score in redis-py, why",
+    "should_trigger": false
+  },
+  {
+    "query": "design google maps navigation",
+    "should_trigger": false
+  },
+  {
+    "query": "draft the copy for our weekly product newsletter",
+    "should_trigger": false
+  }
+]

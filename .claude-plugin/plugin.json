@@ -1,0 +1,29 @@
+{
+  "name": "system-design-skills",
+  "version": "1.0.0",
+  "description": "A multi-skill plugin that runs system design interviews and design reviews the way Alex Xu's System Design Interview books teach: scope, back-of-the-envelope estimates from a deterministic calculator, high-level design, deep dive and wrap-up, with 28 condensed case studies from rate limiters to stock exchanges.",
+  "author": {
+    "name": "Aleksei Kakoulin",
+    "email": "alexey1312ru@gmail.com"
+  },
+  "repository": "https://github.com/alexey1312/System-Design-Agent-Skill",
+  "license": "MIT",
+  "keywords": [
+    "system-design",
+    "system-design-interview",
+    "distributed-systems",
+    "architecture",
+    "scalability",
+    "back-of-the-envelope",
+    "interview-prep",
+    "agent-skill"
+  ],
+  "skills": [
+    "./skills/system-design-interview",
+    "./skills/system-design-infrastructure",
+    "./skills/system-design-content-platforms",
+    "./skills/system-design-realtime-messaging",
+    "./skills/system-design-geospatial",
+    "./skills/system-design-transactions"
+  ]
+}

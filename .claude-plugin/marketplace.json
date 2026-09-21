@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/refs/heads/main/marketplace/marketplace.schema.json",
+  "name": "system-design-skills",
+  "version": "1.0.0",
+  "owner": {
+    "name": "Aleksei Kakoulin",
+    "email": "alexey1312ru@gmail.com"
+  },
+  "metadata": {
+    "description": "System design interviews and design reviews grounded in the System Design Interview books."
+  },
+  "plugins": [
+    {
+      "name": "system-design-skills",
+      "description": "Scope, estimate, design, deep-dive and wrap up any system design question, with 28 condensed case studies and a deterministic estimation calculator.",
+      "repository": "https://github.com/alexey1312/System-Design-Agent-Skill",
+      "version": "1.0.0",
+      "author": {
+        "name": "Aleksei Kakoulin",
+        "email": "alexey1312ru@gmail.com"
+      },
+      "license": "MIT",
+      "category": "development",
+      "keywords": ["system-design", "interview", "distributed-systems", "architecture", "scalability"],
+      "tags": ["system-design", "interview-prep", "architecture", "agent-skill"],
+      "source": "./"
+    }
+  ]
+}

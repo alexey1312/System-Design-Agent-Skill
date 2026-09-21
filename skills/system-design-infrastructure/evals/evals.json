@@ -1,0 +1,33 @@
+{
+  "skill_name": "system-design-infrastructure",
+  "evals": [
+    {
+      "id": 1,
+      "name": "rate-limiter-choice",
+      "prompt": "We need an API rate limiter in front of ~40 microservices, 5,000 req/s, must allow short bursts. Which algorithm and where does it run?",
+      "expected_output": "Token bucket for burst tolerance, placed in the API gateway, counters in Redis with an atomic Lua script, HTTP 429 with rate-limit headers, and the trade-offs against leaky bucket and sliding window counter, citing Vol. 1 ch. 4.",
+      "expectations": [
+        "Recommends the token bucket because bursts must be allowed.",
+        "Places the limiter in the API gateway or middleware given the microservice architecture.",
+        "Stores counters in Redis and addresses the read-modify-write race (Lua script or sorted set).",
+        "Mentions returning HTTP 429 with rate-limit headers.",
+        "Compares at least two alternative algorithms with their drawbacks.",
+        "Cites Vol. 1 ch. 4 (or chapter 4)."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "kv-store-consistency",
+      "prompt": "Our key-value store has 3 replicas per key. What should W and R be if we want strong consistency but reads are 20x more common than writes?",
+      "expected_output": "W + R > N; with N = 3 pick W = 3, R = 1 for fast reads (or W = 2, R = 2 as the balanced default), plus the consequences for write latency and availability, and vector clocks or last-write-wins for conflicts, citing Vol. 1 ch. 6.",
+      "expectations": [
+        "States the W + R > N rule with N = 3.",
+        "Recommends a read-optimised configuration (R = 1, W = 3) or explains why W = R = 2 is the balanced default, with the trade-off stated.",
+        "Explains what happens to write availability when a replica is down (sloppy quorum, hinted handoff).",
+        "Cites Vol. 1 ch. 6 (or chapter 6)."
+      ],
+      "files": []
+    }
+  ]
+}

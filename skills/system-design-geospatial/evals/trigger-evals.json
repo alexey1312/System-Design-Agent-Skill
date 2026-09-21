@@ -1,0 +1,70 @@
+[
+  {
+    "query": "design yelp's nearby search: businesses within 5km of the user",
+    "should_trigger": true
+  },
+  {
+    "query": "geohash vs quadtree vs S2 for a proximity service",
+    "should_trigger": true
+  },
+  {
+    "query": "design 'nearby friends' where 10M users share live location every 30 seconds",
+    "should_trigger": true
+  },
+  {
+    "query": "design google maps: tiles, routing, ETA, location updates",
+    "should_trigger": true
+  },
+  {
+    "query": "how do we handle a search radius that crosses geohash cell boundaries",
+    "should_trigger": true
+  },
+  {
+    "query": "design uber's driver location tracking and matching riders to nearby drivers",
+    "should_trigger": true
+  },
+  {
+    "query": "how are map tiles served at different zoom levels and cached",
+    "should_trigger": true
+  },
+  {
+    "query": "geofencing: notify users when they enter an area, which index",
+    "should_trigger": true
+  },
+  {
+    "query": "we use redis pub/sub for location fan-out, how many nodes for 14M pushes per second",
+    "should_trigger": true
+  },
+  {
+    "query": "compute the haversine distance between two coordinates in python",
+    "should_trigger": false
+  },
+  {
+    "query": "MapKit annotation is not showing on my iOS map view",
+    "should_trigger": false
+  },
+  {
+    "query": "convert this shapefile to geojson",
+    "should_trigger": false
+  },
+  {
+    "query": "design a URL shortener",
+    "should_trigger": false
+  },
+  {
+    "query": "google maps API key is returning REQUEST_DENIED",
+    "should_trigger": false
+  },
+  {
+    "query": "plan a road trip route from SF to LA with stops",
+    "should_trigger": false
+  },
+  {
+    "query": "design a distributed message queue",
+    "should_trigger": false
+  },
+  {
+    "query": "render a leaflet map in react with a marker cluster",
+    "should_trigger": false
+  }
+]

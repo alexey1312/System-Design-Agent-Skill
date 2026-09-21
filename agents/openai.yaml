@@ -1,0 +1,25 @@
+name: system-design-skills
+version: "1.0.0"
+description: >-
+  Run system design interviews and design reviews the way the System Design
+  Interview books teach, with a deterministic estimation calculator and 28
+  condensed case studies.
+author:
+  name: Aleksei Kakoulin
+  email: alexey1312ru@gmail.com
+repository: https://github.com/alexey1312/System-Design-Agent-Skill
+license: MIT
+logo: assets/logo.svg
+keywords:
+  - system-design
+  - interview
+  - distributed-systems
+  - architecture
+  - scalability
+skills:
+  - system-design-interview
+  - system-design-infrastructure
+  - system-design-content-platforms
+  - system-design-realtime-messaging
+  - system-design-geospatial
+  - system-design-transactions

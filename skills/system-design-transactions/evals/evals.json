@@ -1,0 +1,33 @@
+{
+  "skill_name": "system-design-transactions",
+  "evals": [
+    {
+      "id": 1,
+      "name": "double-booking",
+      "prompt": "Two customers keep booking the last room of the same type at the same time and we oversell beyond our 10% overbooking allowance. Reservation traffic is only ~3 TPS. Fix the data model and the concurrency.",
+      "expected_output": "Room-type inventory table keyed by (hotel_id, room_type_id, date) with total_inventory and total_reserved, availability check against 110%, idempotency key with a unique constraint for double clicks, optimistic locking or a CHECK constraint (not pessimistic) given low contention, citing Vol. 2 ch. 7.",
+      "expectations": [
+        "Proposes the room_type_inventory table with total_inventory and total_reserved per date.",
+        "Uses an idempotency key (reservation_id) with a unique constraint for the same-user double click.",
+        "Recommends optimistic locking or a database CHECK constraint and explains why pessimistic locking is not preferred.",
+        "States the overbooking check as total_reserved + n <= 110% of total_inventory.",
+        "Cites Vol. 2 ch. 7 (or chapter 22 in the upstream numbering)."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "wallet-transfer-atomicity",
+      "prompt": "Our wallet balances are sharded across 20 Postgres nodes. A transfer debits on one shard and credits on another. How do we make it atomic at 1M TPS and auditable?",
+      "expected_output": "Reject 2PC (locks, coordinator SPOF); Try-Confirm/Cancel with a phase status table and deduct-before-add ordering, or an orchestrated Saga; event sourcing with a deterministic state machine, local append-only log, Raft-replicated events, snapshots, CQRS reads, citing Vol. 2 ch. 12.",
+      "expectations": [
+        "Explains why two-phase commit is a poor fit (lock contention, coordinator as single point of failure).",
+        "Describes Try-Confirm/Cancel or an orchestrated Saga with compensating transactions and a phase status table.",
+        "Recommends event sourcing for auditability and replay, with a deterministic state machine.",
+        "Mentions Raft replication of the event log (only the events need high reliability).",
+        "Cites Vol. 2 ch. 12 (or chapter 27 in the upstream numbering)."
+      ],
+      "files": []
+    }
+  ]
+}

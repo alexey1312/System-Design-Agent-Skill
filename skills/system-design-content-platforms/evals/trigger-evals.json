@@ -1,0 +1,70 @@
+[
+  {
+    "query": "design a URL shortener like bit.ly for 100M new links a day",
+    "should_trigger": true
+  },
+  {
+    "query": "design a web crawler that respects robots.txt and doesn't hammer hosts",
+    "should_trigger": true
+  },
+  {
+    "query": "design twitter's home timeline, fan-out on write or read?",
+    "should_trigger": true
+  },
+  {
+    "query": "design search autocomplete / typeahead returning top 5 suggestions",
+    "should_trigger": true
+  },
+  {
+    "query": "design youtube: upload, transcoding, streaming via CDN",
+    "should_trigger": true
+  },
+  {
+    "query": "design dropbox / google drive file sync with revision history",
+    "should_trigger": true
+  },
+  {
+    "query": "how should a video platform cut CDN costs for long-tail content",
+    "should_trigger": true
+  },
+  {
+    "query": "our trie for autocomplete is 40GB, how do we shard it",
+    "should_trigger": true
+  },
+  {
+    "query": "delta sync: how do dropbox-style clients upload only changed blocks",
+    "should_trigger": true
+  },
+  {
+    "query": "write a python script that shortens URLs with the bitly API",
+    "should_trigger": false
+  },
+  {
+    "query": "scrape this single page with beautifulsoup and save the table to csv",
+    "should_trigger": false
+  },
+  {
+    "query": "my ffmpeg command produces green frames when transcoding to h265",
+    "should_trigger": false
+  },
+  {
+    "query": "implement a trie in java with insert and search",
+    "should_trigger": false
+  },
+  {
+    "query": "design a chat app with online presence",
+    "should_trigger": false
+  },
+  {
+    "query": "set up an S3 bucket with a CloudFront distribution via terraform",
+    "should_trigger": false
+  },
+  {
+    "query": "how do I add infinite scroll to my react feed component",
+    "should_trigger": false
+  },
+  {
+    "query": "design a payment system for an e-commerce checkout",
+    "should_trigger": false
+  }
+]

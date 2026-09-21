@@ -1,0 +1,70 @@
+[
+  {
+    "query": "design a rate limiter for our public API, token bucket or leaky bucket?",
+    "should_trigger": true
+  },
+  {
+    "query": "how does consistent hashing avoid remapping all keys when a cache node dies",
+    "should_trigger": true
+  },
+  {
+    "query": "design a distributed key-value store like Dynamo with tunable consistency",
+    "should_trigger": true
+  },
+  {
+    "query": "we need 64-bit sortable unique IDs across 30 servers, snowflake?",
+    "should_trigger": true
+  },
+  {
+    "query": "design a message queue like Kafka: partitions, consumer groups, ordering guarantees",
+    "should_trigger": true
+  },
+  {
+    "query": "how would you build S3? durability with erasure coding vs replication",
+    "should_trigger": true
+  },
+  {
+    "query": "design a metrics monitoring and alerting system for 10 million time series",
+    "should_trigger": true
+  },
+  {
+    "query": "what are N, W, R quorum settings and when does W+R>N matter",
+    "should_trigger": true
+  },
+  {
+    "query": "kafka ack=all vs ack=1 trade-off for our ingestion pipeline",
+    "should_trigger": true
+  },
+  {
+    "query": "write a kafka consumer in python that commits offsets manually",
+    "should_trigger": false
+  },
+  {
+    "query": "redis is returning WRONGTYPE for my key, what's going on",
+    "should_trigger": false
+  },
+  {
+    "query": "configure prometheus scrape interval to 15s in the helm chart",
+    "should_trigger": false
+  },
+  {
+    "query": "explain the CAP theorem in one paragraph for a blog post about philosophy",
+    "should_trigger": false
+  },
+  {
+    "query": "design a news feed for a social network",
+    "should_trigger": false
+  },
+  {
+    "query": "how do I generate a UUID in Go",
+    "should_trigger": false
+  },
+  {
+    "query": "resize my S3 bucket lifecycle rule to expire objects after 30 days",
+    "should_trigger": false
+  },
+  {
+    "query": "set up a redis sentinel failover on kubernetes",
+    "should_trigger": false
+  }
+]

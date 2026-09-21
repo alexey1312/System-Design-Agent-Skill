@@ -1,0 +1,70 @@
+[
+  {
+    "query": "design a hotel reservation system that supports 10% overbooking without double booking",
+    "should_trigger": true
+  },
+  {
+    "query": "design a payment system for e-commerce using stripe as the PSP, with reconciliation",
+    "should_trigger": true
+  },
+  {
+    "query": "design a digital wallet with balance transfers at 1M TPS that we can audit",
+    "should_trigger": true
+  },
+  {
+    "query": "design a stock exchange: matching engine, order book, microsecond latency",
+    "should_trigger": true
+  },
+  {
+    "query": "optimistic vs pessimistic locking for seat booking under contention",
+    "should_trigger": true
+  },
+  {
+    "query": "two-phase commit vs saga vs try-confirm-cancel for a transfer across shards",
+    "should_trigger": true
+  },
+  {
+    "query": "how do idempotency keys prevent double charging when the client retries",
+    "should_trigger": true
+  },
+  {
+    "query": "event sourcing for a ledger: how do we replay and prove balances are correct",
+    "should_trigger": true
+  },
+  {
+    "query": "design ticketmaster for a concert where 1M people hit 'buy' at 10am",
+    "should_trigger": true
+  },
+  {
+    "query": "integrate stripe checkout into my next.js app",
+    "should_trigger": false
+  },
+  {
+    "query": "write the SQL migration to add a version column to bookings",
+    "should_trigger": false
+  },
+  {
+    "query": "what is a candlestick chart and how do I read it as a beginner investor",
+    "should_trigger": false
+  },
+  {
+    "query": "design a chat system",
+    "should_trigger": false
+  },
+  {
+    "query": "my postgres deadlock: two updates on the same rows in different order",
+    "should_trigger": false
+  },
+  {
+    "query": "explain double-entry bookkeeping for my accounting exam",
+    "should_trigger": false
+  },
+  {
+    "query": "design a metrics monitoring system",
+    "should_trigger": false
+  },
+  {
+    "query": "set up paypal webhooks in django",
+    "should_trigger": false
+  }
+]

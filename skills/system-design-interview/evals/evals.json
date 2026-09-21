@@ -1,0 +1,34 @@
+{
+  "skill_name": "system-design-interview",
+  "evals": [
+    {
+      "id": 1,
+      "name": "full-interview-answer",
+      "prompt": "Design a news feed system for 10 million DAU where users have up to 5,000 friends. Walk me through it like a 45-minute interview.",
+      "expected_output": "A scoped answer: clarifying assumptions, an estimate table produced by the calculator, API and data model, two flows (publishing, retrieval), a fan-out deep dive with the hybrid celebrity approach, and a wrap-up with bottlenecks, each citing Vol. 1 ch. 11.",
+      "expectations": [
+        "Starts by listing functional and non-functional requirements and explicit assumptions before proposing components.",
+        "Runs scripts/estimate.py (or reproduces its table) for QPS and storage rather than doing arithmetic in prose.",
+        "Describes both feed publishing and feed retrieval flows.",
+        "Explains fan-out on write vs fan-out on read and recommends the hybrid approach for celebrities.",
+        "Cites Vol. 1 ch. 11 (or 'chapter 11') for the fan-out recommendation.",
+        "Ends with a wrap-up naming bottlenecks, failure modes and open questions."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "mock-interviewer",
+      "prompt": "Be my interviewer. Give me a system design question and don't tell me the answer; push back on my choices.",
+      "expected_output": "One problem statement, scope answers with concrete numbers when asked, no solution revealed, prompts for estimates and a deep dive, and a graded debrief at the end.",
+      "expectations": [
+        "Poses a single system design problem in one or two sentences.",
+        "Does not present the architecture or solution unprompted.",
+        "Answers scope questions with concrete numbers (users, QPS, retention) the way the chapters do.",
+        "Asks the candidate for back-of-the-envelope estimates.",
+        "Offers a debrief structured by the framework's steps and dos/don'ts."
+      ],
+      "files": []
+    }
+  ]
+}

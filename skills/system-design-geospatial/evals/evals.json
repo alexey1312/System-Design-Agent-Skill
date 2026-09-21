@@ -1,0 +1,33 @@
+{
+  "skill_name": "system-design-geospatial",
+  "evals": [
+    {
+      "id": 1,
+      "name": "nearby-search-index",
+      "prompt": "Design the search for 'restaurants within 500 m' over 200M businesses with 5,000 QPS. Which spatial index and why?",
+      "expected_output": "Geohash of length 6 for 500 m, query the cell plus its 8 neighbours, business IDs per geohash cached in Redis, ranked by distance; quadtree and S2 compared; business table sharded by ID, geohash table replicated not sharded, citing Vol. 2 ch. 1.",
+      "expectations": [
+        "Chooses a geohash precision matching the radius (length 6 for about 500 m).",
+        "Includes the 8 neighbouring cells to handle boundary cases.",
+        "Caches geohash → business IDs and business_id → details in Redis, explaining why coordinates are a bad cache key.",
+        "Compares geohash with quadtree (and optionally S2) on density adaptivity and update cost.",
+        "Cites Vol. 2 ch. 1 (or chapter 16 in the upstream numbering)."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "live-location-fanout",
+      "prompt": "10M concurrent users share their location every 30 seconds with ~400 friends each. How do updates reach friends' phones and how many Redis nodes do we need?",
+      "expected_output": "WebSocket servers per client, Redis pub/sub with one channel per user, ~334k updates/s fanning out to ~40 online friends each (~14M pushes/s), roughly 140 Redis servers by CPU not memory, hash ring in ZooKeeper, TTL location cache, citing Vol. 2 ch. 2.",
+      "expectations": [
+        "Computes about 334k location updates per second.",
+        "Uses a per-user pub/sub channel with WebSocket servers subscribing for their connected users' friends.",
+        "Sizes the Redis cluster by push throughput (about 140 servers), not by memory.",
+        "Mentions consistent hashing / service discovery for channel placement and the resubscription cost of resizing.",
+        "Cites Vol. 2 ch. 2 (or chapter 17 in the upstream numbering)."
+      ],
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "skill_name": "system-design-content-platforms",
+  "evals": [
+    {
+      "id": 1,
+      "name": "url-shortener-hash",
+      "prompt": "For a URL shortener handling 100M new links a day for 10 years, should the short key be a hash of the URL or a base-62 encoded ID? We also need click analytics.",
+      "expected_output": "Base-62 of a unique ID (7 chars covers 3.5 trillion) with a distributed ID generator, the guessability caveat, hash + collision resolution as the alternative, and 302 redirects because analytics are required, citing Vol. 1 ch. 8.",
+      "expectations": [
+        "Computes or states that 7 base-62 characters give about 3.5 trillion keys, enough for 365 billion URLs.",
+        "Recommends base-62 conversion of a unique ID and names the need for an ID generator.",
+        "Mentions that sequential IDs are guessable.",
+        "Chooses 302 over 301 because click analytics are required.",
+        "Cites Vol. 1 ch. 8 (or chapter 8)."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "feed-fanout",
+      "prompt": "Our timeline precomputes every follower's feed on post. Celebrities with 2M followers are killing the workers. What do we change?",
+      "expected_output": "Keep fan-out on write for ordinary users, switch celebrities to fan-out on read (followers pull their posts at request time), cap feed cache length, store post IDs not objects, and use a queue with workers, citing Vol. 1 ch. 11.",
+      "expectations": [
+        "Diagnoses the hotkey/celebrity problem of fan-out on write.",
+        "Recommends the hybrid approach: push for most users, pull for high-follower accounts.",
+        "Recommends storing post IDs (not full objects) in the feed cache with a length cap.",
+        "Cites Vol. 1 ch. 11 (or chapter 11)."
+      ],
+      "files": []
+    }
+  ]
+}

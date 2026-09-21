@@ -1,0 +1,33 @@
+{
+  "skill_name": "system-design-realtime-messaging",
+  "evals": [
+    {
+      "id": 1,
+      "name": "chat-presence",
+      "prompt": "Design online/offline presence for a chat app with 50M DAU. Users complain the status flickers when they walk through a tunnel.",
+      "expected_output": "Presence servers with WebSocket connections, heartbeats every few seconds, mark offline only after a threshold (e.g. 30 s) to avoid flapping, fan-out of status changes over pub/sub channels per friend pair, and on-demand fetch for large groups, citing Vol. 1 ch. 12.",
+      "expectations": [
+        "Proposes a heartbeat mechanism with a timeout threshold longer than a brief disconnect.",
+        "Explains that the threshold prevents flapping on short network drops.",
+        "Describes fan-out of presence changes via publish-subscribe channels.",
+        "Notes that fan-out per friend pair does not scale to large groups and offers the fallback.",
+        "Cites Vol. 1 ch. 12 (or chapter 12)."
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "leaderboard-rank",
+      "prompt": "Our game's leaderboard runs on MySQL and 'what is my rank' takes 4 seconds with 25M players. Fix it.",
+      "expected_output": "Redis sorted set keyed per month: ZINCRBY for scores, ZREVRANGE for top 10, ZREVRANK for rank; ~650 MB memory; MySQL kept as source of truth for rebuilds; sharding strategy when scale grows, citing Vol. 2 ch. 10.",
+      "expectations": [
+        "Explains why the relational rank query is O(N).",
+        "Recommends a Redis sorted set and names ZREVRANK for the rank query.",
+        "Estimates the memory footprint (about 650 MB for 25 M members, double with overhead).",
+        "Keeps MySQL (or a durable log) to rebuild the board after a Redis failure.",
+        "Cites Vol. 2 ch. 10 (or chapter 25 in the upstream numbering)."
+      ],
+      "files": []
+    }
+  ]
+}
