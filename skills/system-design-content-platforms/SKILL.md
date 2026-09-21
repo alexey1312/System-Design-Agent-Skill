@@ -17,10 +17,10 @@ description: >-
 
 Six case studies where reads dwarf writes and the design is about caches,
 CDNs and precomputation.
-The orchestrator (`system-design-interview`) owns scope, estimates and the
+The advisor (`system-design-advisor`) owns the scan, the numbers and the
 answer format; this skill owns the case studies.
 
-| System | Reference | The deep dive the interviewer expects |
+| System | Reference | Where the risk is |
 | --- | --- | --- |
 | URL shortener | `references/url-shortener.md` | Hash vs base-62; 301 vs 302; cache in front of the DB |
 | Web crawler | `references/web-crawler.md` | URL frontier: front queues for priority, back queues for politeness |
@@ -31,7 +31,10 @@ answer format; this skill owns the case studies.
 
 ## How to use
 
-1. Run the orchestrator's scope and estimate steps;
+1. On a real project, run `scripts/arch_scan.py` first;
+   CDN, object storage, search and cache entries in its inventory say which
+   of these designs the project resembles.
+   For a new design, run the advisor's scope and estimate steps;
    these systems are sized by DAU, read/write ratio and object size,
    and the CDN cost line often decides the design.
 2. Load the one reference the request names.
@@ -40,6 +43,21 @@ answer format; this skill owns the case studies.
 3. Follow the chapter's shape: API, data model, two flows
    (write path, read path), then the deep dive.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+
+## On a real project
+
+- **Short links or public IDs**: check whether IDs are sequential and
+  exposed; check 301 versus 302 against the analytics requirement.
+- **Crawlers and scrapers**: find per-host concurrency, delays,
+  `robots.txt` handling, URL deduplication and the trap limits.
+- **Feeds and timelines**: find where fan-out happens, the cache contents
+  (IDs or objects), the cap on feed length, and the celebrity path.
+- **Autocomplete and search**: find how often the index is rebuilt, what
+  is cached per prefix, and the shard key.
+- **Media**: find the transcoding pipeline stages, whether uploads are
+  chunked and pre-signed, and what share of traffic the CDN serves.
+- **File sync**: find block size, delta sync, dedup, conflict handling
+  and how clients learn about changes (long polling versus WebSocket).
 
 ## Cross-cutting rules
 
@@ -65,6 +83,8 @@ answer format; this skill owns the case studies.
 - Serving every video from the CDN costs more than the servers do.
 - WebSocket for Drive notifications is over-engineering; the chapter picks long polling.
 
-Shared references: `references/estimation-cheatsheet.md`,
-`references/building-blocks.md`, `references/design-format.md`;
-calculator: `scripts/estimate.py`.
+Shared references: `references/review-checklist.md`,
+`references/estimation-cheatsheet.md`, `references/building-blocks.md`,
+`references/design-format.md`;
+scripts: `scripts/arch_scan.py` (read-only project scan),
+`scripts/estimate.py` (calculator).

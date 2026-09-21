@@ -29,9 +29,9 @@ Say that when a decision hinges on one.
 
 | Chapter | Title | Skill | Reference |
 | --- | --- | --- | --- |
-| Vol. 1 ch. 1 | Scale from zero to millions of users | `system-design-interview` | `references/building-blocks.md` |
-| Vol. 1 ch. 2 | Back-of-the-envelope estimation | `system-design-interview` | `references/estimation-cheatsheet.md` |
-| Vol. 1 ch. 3 | A framework for system design interviews | `system-design-interview` | `references/framework.md` |
+| Vol. 1 ch. 1 | Scale from zero to millions of users | `system-design-advisor` | `references/building-blocks.md` |
+| Vol. 1 ch. 2 | Back-of-the-envelope estimation | `system-design-advisor` | `references/estimation-cheatsheet.md` |
+| Vol. 1 ch. 3 | A framework for system design interviews | `system-design-advisor` | `references/framework.md` |
 | Vol. 1 ch. 4 | Design a rate limiter | `system-design-infrastructure` | `references/rate-limiter.md` |
 | Vol. 1 ch. 5 | Design consistent hashing | `system-design-infrastructure` | `references/consistent-hashing.md` |
 | Vol. 1 ch. 6 | Design a key-value store | `system-design-infrastructure` | `references/key-value-store.md` |

@@ -1,7 +1,7 @@
 {
   "name": "system-design-skills",
   "version": "1.0.0",
-  "description": "System design interviews and design reviews grounded in the System Design Interview books.",
+  "description": "System design reference and assistant for real projects, grounded in the System Design Interview books.",
   "author": {
     "name": "Aleksei Kakoulin",
     "email": "alexey1312ru@gmail.com"
@@ -9,7 +9,7 @@
   "repository": "https://github.com/alexey1312/System-Design-Agent-Skill",
   "license": "MIT",
   "skills": [
-    "./skills/system-design-interview",
+    "./skills/system-design-advisor",
     "./skills/system-design-infrastructure",
     "./skills/system-design-content-platforms",
     "./skills/system-design-realtime-messaging",

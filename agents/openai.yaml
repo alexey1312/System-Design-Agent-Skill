@@ -1,9 +1,10 @@
 name: system-design-skills
 version: "1.0.0"
 description: >-
-  Run system design interviews and design reviews the way the System Design
-  Interview books teach, with a deterministic estimation calculator and 28
-  condensed case studies.
+  System design reference and assistant for real projects: read-only
+  architecture scan, chapter-backed review checklist, deterministic
+  estimation calculator and 28 condensed case studies from the System
+  Design Interview books.
 author:
   name: Aleksei Kakoulin
   email: alexey1312ru@gmail.com
@@ -12,12 +13,13 @@ license: MIT
 logo: assets/logo.svg
 keywords:
   - system-design
-  - interview
+  - architecture
+  - design-review
   - distributed-systems
   - architecture
   - scalability
 skills:
-  - system-design-interview
+  - system-design-advisor
   - system-design-infrastructure
   - system-design-content-platforms
   - system-design-realtime-messaging

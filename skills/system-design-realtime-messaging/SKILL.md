@@ -16,10 +16,10 @@ description: >-
 
 Five case studies about getting events to the right place quickly and
 without losing or duplicating them.
-The orchestrator (`system-design-interview`) owns scope, estimates and the
+The advisor (`system-design-advisor`) owns the scan, the numbers and the
 answer format; this skill owns the case studies.
 
-| System | Reference | The deep dive the interviewer expects |
+| System | Reference | Where the risk is |
 | --- | --- | --- |
 | Notification system | `references/notification-system.md` | Queue per channel; persistence, retry, dedup; user settings and rate limits |
 | Chat system | `references/chat-system.md` | WebSocket; service discovery; message sync by ID; heartbeat presence |
@@ -29,7 +29,11 @@ answer format; this skill owns the case studies.
 
 ## How to use
 
-1. Run the orchestrator's scope and estimate steps;
+1. On a real project, run `scripts/arch_scan.py` first;
+   WebSocket libraries, push and SMS providers, payment or job queues and
+   stream processors in its inventory point at the reference to load,
+   and finding `SD007` marks rank queries that scan.
+   For a new design, run the advisor's scope and estimate steps;
    these designs turn on concurrent connections, events per second and
    fan-out factor.
 2. Load the one reference the request names.
@@ -38,6 +42,21 @@ answer format; this skill owns the case studies.
 3. State the delivery guarantee up front (at-most, at-least, exactly-once)
    and the mechanism that provides it.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+
+## On a real project
+
+- **Notifications**: find where a send is persisted before the provider
+  call, the dedup key, per-user rate limits, the opt-out table and the
+  retry policy.
+- **Chat and presence**: find how clients pick a server, the heartbeat
+  interval and offline threshold, the message ID scheme and the sync
+  cursor per device.
+- **Email**: find the outgoing and incoming queues, what is monitored on
+  them, the metadata partition key, and how the search index is updated.
+- **Leaderboards and rankings**: find the rank query; if it counts rows,
+  that is `SD007`; check the rebuild path when the cache is lost.
+- **Event aggregation**: find event time versus processing time, the
+  window and watermark, the offset commit order, and the reconciliation job.
 
 ## Cross-cutting rules
 
@@ -64,6 +83,8 @@ answer format; this skill owns the case studies.
 - Filtering Cassandra on a non-key column: denormalise (read/unread tables).
 - Clients must never write their own score.
 
-Shared references: `references/estimation-cheatsheet.md`,
-`references/building-blocks.md`, `references/design-format.md`;
-calculator: `scripts/estimate.py`.
+Shared references: `references/review-checklist.md`,
+`references/estimation-cheatsheet.md`, `references/building-blocks.md`,
+`references/design-format.md`;
+scripts: `scripts/arch_scan.py` (read-only project scan),
+`scripts/estimate.py` (calculator).

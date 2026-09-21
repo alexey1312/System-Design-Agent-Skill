@@ -18,10 +18,10 @@ description: >-
 
 Four case studies where correctness outranks throughput and the deep dive
 is always about concurrency, atomicity and auditability.
-The orchestrator (`system-design-interview`) owns scope, estimates and the
+The advisor (`system-design-advisor`) owns the scan, the numbers and the
 answer format; this skill owns the case studies.
 
-| System | Reference | The deep dive the interviewer expects |
+| System | Reference | Where the risk is |
 | --- | --- | --- |
 | Hotel reservation | `references/hotel-reservation.md` | Room-type inventory table; double booking; locking options; sharding by hotel |
 | Payment system | `references/payment-system.md` | PSP hosted page and webhooks; ledger; reconciliation; retry and idempotency |
@@ -30,14 +30,37 @@ answer format; this skill owns the case studies.
 
 ## How to use
 
-1. Run the orchestrator's scope and estimate steps;
-   note that three of the four have low TPS, so the answer is never "shard
-   first" but "make it correct, then scale".
+1. On a real project, run `scripts/arch_scan.py` first;
+   payment providers and relational stores in its inventory, and findings
+   `SD001`, `SD002`, `SD004` and `SD005` (money types, locking), say where
+   to look.
+   For a new design, run the advisor's scope and estimate steps;
+   note that three of the four case studies have low TPS, so the answer is
+   never "shard first" but "make it correct, then scale".
 2. Load the one reference the request names;
    the wallet's event-sourcing section is shared by the exchange.
 3. Lead with the failure that costs money (double booking, double charge,
    lost transfer, unfair fill) and design backwards from it.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+
+## On a real project
+
+- **Mutating endpoints**: list every POST/PUT that moves money or
+  inventory and check each for an idempotency key with a unique constraint
+  (`RC-5.1`).
+- **Money types**: `SD001` and `SD004` mark floats; check the API too
+  (amounts as strings).
+- **Locking**: `SD002` marks pessimistic locks; read the transaction
+  length and the contention; `SD005` marks timestamp-based versions.
+- **Providers**: find the webhook handler, its idempotency, and the
+  nightly reconciliation against the settlement file.
+- **Ledger**: find whether every movement has two entries and whether
+  balances are derived or stored.
+- **Cross-service consistency**: find distributed transactions; check for
+  a phase status table (TC/C) or an orchestrator (Saga) and the
+  compensation path.
+- **Matching or ordering**: find the sequencer, determinism (no
+  wall-clock reads in the engine), and the replay path.
 
 ## Cross-cutting rules
 
@@ -66,6 +89,8 @@ answer format; this skill owns the case studies.
 - Kafka as an exchange sequencer: milliseconds where microseconds are needed.
 - Logging on the critical path of the matching engine.
 
-Shared references: `references/estimation-cheatsheet.md`,
-`references/building-blocks.md`, `references/design-format.md`;
-calculator: `scripts/estimate.py`.
+Shared references: `references/review-checklist.md`,
+`references/estimation-cheatsheet.md`, `references/building-blocks.md`,
+`references/design-format.md`;
+scripts: `scripts/arch_scan.py` (read-only project scan),
+`scripts/estimate.py` (calculator).

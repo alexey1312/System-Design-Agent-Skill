@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
   <title id="title">System Design Agent Skills</title>
-  <desc id="desc">Scope, estimate, design, deep-dive and wrap up any system design question, grounded in the System Design Interview books.</desc>
+  <desc id="desc">Reference and design assistant for real systems, grounded in the System Design Interview books.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0f172a"/>
@@ -35,8 +35,8 @@
   <g font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" fill="#f8fafc">
     <text x="72" y="230" font-size="62" font-weight="700">System Design</text>
     <text x="72" y="300" font-size="62" font-weight="700">Agent Skills</text>
-    <text x="72" y="362" font-size="26" fill="#ccfbf1">Scope · estimate · design · deep dive · wrap up</text>
-    <text x="72" y="402" font-size="22" fill="#99f6e4">Six skills, 28 case studies, one deterministic calculator,</text>
+    <text x="72" y="362" font-size="26" fill="#ccfbf1">Scan · size · map · recommend · verify</text>
+    <text x="72" y="402" font-size="22" fill="#99f6e4">Six skills, 28 case studies, a scanner and a calculator,</text>
     <text x="72" y="432" font-size="22" fill="#99f6e4">grounded in the System Design Interview books.</text>
     <text x="72" y="490" font-size="18" fill="#5eead4">npx skills add alexey1312/System-Design-Agent-Skill</text>
   </g>

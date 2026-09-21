@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="System Design Agent Skills — scope, estimate, design, deep dive and wrap up any system design question" width="100%">
+  <img src="assets/banner.svg" alt="System Design Agent Skills — reference and design assistant for real systems" width="100%">
 </p>
 
 # System Design Agent Skills
@@ -9,42 +9,69 @@
 [![GitHub Release](https://img.shields.io/github/v/release/alexey1312/System-Design-Agent-Skill?sort=semver)](https://github.com/alexey1312/System-Design-Agent-Skill/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/alexey1312/System-Design-Agent-Skill?style=flat&color=brightgreen)](https://github.com/alexey1312/System-Design-Agent-Skill/stargazers)
 
-**Six coordinated Agent Skills that answer system design questions the way
-the *System Design Interview* books teach** —
-scope first, back-of-the-envelope numbers from a calculator,
-a high-level design, a deep dive, a wrap-up —
-with all 28 case studies from both volumes condensed into references.
+**Six coordinated Agent Skills that act as a system design reference and
+assistant on real projects** —
+scan a codebase for the stores, queues, caches and transports it runs,
+check them against a chapter-backed review checklist,
+size the next 10× with a deterministic calculator,
+and write design documents and review recommendations with trade-offs —
+grounded in all 28 case studies of the *System Design Interview* books.
 They work in any AI coding tool that supports the
 [Agent Skills open format](https://agentskills.io/home).
 
 The skills turn Alex Xu's *System Design Interview – An Insider's Guide*
 (Vol. 1) and *Volume 2* (with Sahn Lam), as summarised in the
 [system-design-notes](https://github.com/liquidslr/system-design-notes)
-repository, into a repeatable workflow:
-clarify the scope, estimate with a deterministic script,
-propose the design, go deep where the risk is,
-and cite the chapter behind every pattern.
+repository, into a repeatable workflow for real systems:
+read what the project already runs, establish the numbers,
+map every part to the chapter that treats it,
+offer options with their costs, recommend, and say how to verify.
+Interview preparation is included as a mode, not the point.
 
 ## Who this is for
 
-- Engineers preparing for system design interviews
-  who want a coach that follows the four-step framework
-  and can play the interviewer
-- Teams writing or reviewing an architecture document
-  who want every recommendation tied to a known trade-off
+- Teams designing a new service or a change
+  who want a design document with options, trade-offs and numbers
+- Engineers reviewing an existing backend before growth, a migration
+  or an incident post-mortem, who want every recommendation tied to a
+  known pattern and a way to verify it
 - Anyone who needs QPS, storage, bandwidth and server estimates
-  that are shown with their assumptions instead of asserted
+  shown with their assumptions instead of asserted
+- Engineers preparing for system design interviews, as a secondary mode
 
-## What it covers
+## What it does on a real project
 
-- **The framework** — the four steps, the time budget,
-  the questions to ask, the dos and don'ts, and how to run a mock interview
-- **Estimation** — powers of two, latency numbers, availability nines,
-  and a calculator that turns DAU and payload sizes into QPS,
-  storage, bandwidth, cache and server counts
-- **Building blocks** — the scaling ladder from a single server
-  to sharded, multi-data-center systems,
-  plus an index of which chapter develops each recurring pattern
+- **Scans the code** — a read-only script reports the databases, caches,
+  queues, search indexes, object storage, CDN, metrics, WebSocket,
+  push, payment and geo libraries the project uses, with `file:line`
+  evidence, and flags code patterns the books warn about:
+  money in floats, `hash % N` placement, `SELECT … FOR UPDATE`,
+  timestamp-based optimistic locks, rank-by-`COUNT(*)`
+- **Asks the right questions** — generated from the inventory:
+  what the cache loses on restart, which delivery semantics consumers
+  assume, which idempotency key reaches the payment provider
+- **Walks a review checklist** — 45 checks in nine groups
+  (availability, data stores, caches, queues, money and inventory,
+  real-time, rate limiting, streams, operations), each citing its chapter
+- **Establishes the numbers** — production metrics when the owner has
+  them, otherwise a calculator that turns DAU and payload sizes into QPS,
+  storage, bandwidth, cache and server counts, with derivations
+- **Writes the document** — options with a trade-off table, the
+  recommended design, rollout and verification, risks and open questions;
+  in a review, recommendations with stable IDs and statuses
+  (`proposed`, `accepted`, `declined`, `kept`, `needs-data`)
+- **Respects deliberate decisions** — a documented choice that
+  contradicts a chapter is reported as *kept*, not rewritten
+
+Every automated check is listed with its source in
+[DESIGN-CHECKS.md](DESIGN-CHECKS.md);
+the chapter-to-skill map is in [references/sources.md](references/sources.md).
+
+## What it knows
+
+- **Building blocks** — the scaling ladder from a single server to
+  sharded, multi-data-center systems, a pattern index across all chapters,
+  and a store-selection table
 - **Infrastructure** — rate limiter, consistent hashing, key-value store,
   unique ID generator, distributed message queue, object storage,
   metrics monitoring and alerting
@@ -55,79 +82,91 @@ and cite the chapter behind every pattern.
 - **Geospatial** — proximity service, nearby friends, maps and navigation
 - **Transactions** — hotel reservation, payment system, digital wallet,
   stock exchange
+- **Estimation** — powers of two, latency numbers, availability nines,
+  the worked examples
+- **The interview framework** — four steps, time budget, questions to ask,
+  dos and don'ts, how to run a mock
 
-The chapter-to-skill map is in [references/sources.md](references/sources.md).
+## Context before boxes
 
-## Scope before boxes
-
-A system design answer that starts with a diagram is guessing.
-The skills treat "design X" as permission to ask, not to draw.
+A design answer that starts with a diagram is guessing.
+The skills treat "design X" or "review this" as permission to read and ask,
+not to draw.
 
 Before any architecture, you get:
 
-- Functional and non-functional requirements, and what was left out
-- Every assumption written down where you can challenge it
-- An estimate table with its derivation, produced by the calculator
+- The inventory of what the project already runs, with evidence
+- Requirements, non-functional targets, what was left out,
+  and every assumption written down where you can challenge it
+- An estimate table with its derivation, from metrics or the calculator
 - The chapter each pattern comes from, or the label *inference*
 
-Then the design, then two or three deep dives with trade-off tables,
-then a wrap-up that names the bottlenecks instead of claiming completeness.
-In a design review, every recommendation carries a stable ID and a status
-you can accept, decline, or mark as *kept*.
+Then options, the recommendation, the deep dives that carry the risk,
+and a section on rollout, verification and what was not verified.
+Nothing in the project is edited; recommendations are applied only
+after you accept them by ID.
 
 ## How it works
 
-Unlike text-only skills, this repository ships a read-only Python calculator,
-so your agent reasons over a table instead of doing arithmetic in prose.
+Unlike text-only skills, this repository ships two read-only Python scripts,
+so your agent reasons over structured output instead of ad-hoc grep.
 
 **When it triggers:**
 
-- You ask how to design, architect or scale a system,
-  or say "how would you design X".
-- You ask for a mock system design interview or feedback on your answer.
+- You ask how to design, scale, fix or review a service or architecture.
+- You ask which store, cache, queue, index or pattern to use, or what
+  breaks at 10×.
 - You need QPS, storage, bandwidth, cache or server estimates.
 - You name one of the 28 systems, or a pattern from them:
   fan-out, geohash, consistent hashing, quorum, idempotency key, Saga,
   event sourcing, sequencer.
+- You ask for a mock system design interview or feedback on your answer.
 
 **What you can ask:**
 
-- `Design a news feed for 10M DAU. Walk me through it like a 45-minute interview.`
-- `Be my interviewer. Pick a problem and push back on my choices.`
-- `Estimate QPS and storage for 20M DAU posting 3 times a day with 10% media.`
+- `Review this repo for design problems before we grow 10x. Don't change anything.`
+- `Should we put Redis in front of the orders table or add read replicas?`
+- `We have 2M DAU uploading 3 photos a day. What breaks first when we double?`
 - `Token bucket or sliding window for our API gateway? We must allow bursts.`
 - `Two users keep booking the last room. Fix the data model and the locking.`
-- `Review this architecture doc against the books and tell me what's missing.`
+- `Write a design doc for moving our cron-based exports to a queue with workers.`
+- `Be my interviewer. Pick a problem and push back on my choices.`
 
 **Under the hood:**
 
+- `scripts/arch_scan.py` — walks the project (skipping dependencies and
+  hidden directories), reads manifests, Docker Compose, Kubernetes,
+  Terraform, `.env` files and import lines, and emits JSON or Markdown:
+  the technology inventory with evidence, findings with stable IDs and
+  chapter citations, questions for the owners, and the references to load.
+  Never writes.
 - `scripts/estimate.py` — turns DAU, actions per day, payload sizes,
   read/write ratio, peak factor and retention into QPS, storage,
   bandwidth, cache size and server count, as JSON or a Markdown table
-  with derivations.
-  Also prints the latency and powers-of-two tables and the downtime
-  behind any availability figure.
-  Reads nothing, writes nothing.
-- `references/` — four shared references (sources, estimation cheat sheet,
-  answer format, building blocks) copied into every skill,
-  and one condensed reference per chapter inside the skill that owns it.
-- `skills/*/evals/` — skill-creator evals and trigger queries
-  for each skill.
+  with derivations; also the latency and powers-of-two tables and the
+  downtime behind any availability figure.
+  Never writes.
+- `references/` — five shared references (sources, estimation cheat
+  sheet, design and review format, building blocks, review checklist)
+  copied into every skill, and one condensed reference per chapter inside
+  the skill that owns it.
+- `skills/*/evals/` — skill-creator evals (with a fixture project for the
+  review flow) and trigger queries for each skill.
 
 ## The skills
 
 | Skill | What it does |
 | --- | --- |
-| [`system-design-interview`](skills/system-design-interview/SKILL.md) | Orchestrator: scope, estimate, high-level design, deep dive, wrap-up; mock interviews; design reviews; routes to specialists |
+| [`system-design-advisor`](skills/system-design-advisor/SKILL.md) | Orchestrator: scan, numbers, chapter mapping, options and recommendation, rollout; design documents; reviews; capacity planning; interview practice; routes to specialists |
 | [`system-design-infrastructure`](skills/system-design-infrastructure/SKILL.md) | Rate limiter, consistent hashing, key-value store, unique ID generator, distributed message queue, object storage, metrics monitoring |
 | [`system-design-content-platforms`](skills/system-design-content-platforms/SKILL.md) | URL shortener, web crawler, news feed, search autocomplete, video streaming, cloud file storage |
 | [`system-design-realtime-messaging`](skills/system-design-realtime-messaging/SKILL.md) | Notification system, chat, email, gaming leaderboard, ad click aggregation |
 | [`system-design-geospatial`](skills/system-design-geospatial/SKILL.md) | Proximity service, nearby friends, maps and navigation |
 | [`system-design-transactions`](skills/system-design-transactions/SKILL.md) | Hotel reservation, payment system, digital wallet, stock exchange |
 
-Start with `system-design-interview` for any design question;
+Start with `system-design-advisor` for a project or a design question;
 call a specialist directly for a focused one.
-Every skill carries its own copy of the shared references and the calculator,
+Every skill carries its own copy of the shared references and both scripts,
 so any subset installs cleanly.
 
 ## How to Use These Skills
@@ -148,7 +187,7 @@ npx skills add https://github.com/alexey1312/System-Design-Agent-Skill --skill s
 
 Then use it in your AI agent, for example:
 
-> Use the system design interview skill and design a rate limiter with me.
+> Use the system design advisor skill and review this service before we scale.
 
 ### Option B: Claude Code Plugin
 
@@ -214,7 +253,7 @@ pi install https://github.com/alexey1312/System-Design-Agent-Skill
 1. **Clone** this repository.
 2. **Install or symlink** the folders under `skills/` following your tool's
    official skills installation docs (see links below).
-3. **Ask your AI tool** to use the `system-design-interview` skill.
+3. **Ask your AI tool** to use the `system-design-advisor` skill on your project.
 
 Or download a single `.skill` archive from the
 [latest release](https://github.com/alexey1312/System-Design-Agent-Skill/releases/latest).
@@ -227,18 +266,21 @@ Or download a single `.skill` archive from the
 
 **How to verify:**
 
-Ask for a design.
-Your agent should ask scope questions (or state assumptions) before drawing
-anything, run the bundled calculator and show its table,
-cite a volume and chapter for each pattern it uses,
-and end with bottlenecks and open questions.
+Ask for a review of a project.
+Your agent should run the bundled scan and report the inventory with
+`file:line` evidence, ask the generated questions or state assumptions,
+show the calculator's table for the numbers,
+cite a volume and chapter for each pattern,
+give every recommendation an ID and a status,
+and edit nothing.
 
 ## Skill Structure
 
 ```text
 skills/
-  system-design-interview/          Orchestrator: framework, routing, modes
-    references/framework.md         Vol. 1 ch. 3
+  system-design-advisor/            Orchestrator: scan, numbers, mapping, options, rollout
+    references/framework.md         Vol. 1 ch. 3 (interview mode)
+    evals/files/Checkout/           Fixture project for the review eval
   system-design-infrastructure/     + rate-limiter, consistent-hashing, key-value-store,
                                       unique-id-generator, distributed-message-queue,
                                       object-storage, metrics-monitoring
@@ -251,29 +293,32 @@ skills/
                                       stock-exchange
     SKILL.md                        Workflow and rules for the skill
     references/                     sources, estimation-cheatsheet, design-format,
-                                    building-blocks (shared copies) + the case studies above
-    scripts/                        estimate.py (shared copy)
+                                    building-blocks, review-checklist (shared copies)
+                                    + the case studies above
+    scripts/                        arch_scan.py, estimate.py (shared copies)
     evals/                          skill-creator evals and trigger queries
 references/                         Canonical shared references
-scripts/                            estimate.py, sync_skill_copies.py, package_skills.py
+scripts/                            Canonical scripts, sync_skill_copies.py, package_skills.py
 tests/                              Deterministic unit tests
+DESIGN-CHECKS.md                    Every automated check, with sources
 ```
 
 ## This skill's approach
 
 - **Grounded**: every pattern cites a volume and chapter;
   anything else is labelled as inference.
-- **Numerate**: estimates come from a script that shows its assumptions,
-  reproduces the books' worked examples in its tests,
-  and uses the same decimal units interviews do.
+- **Evidence first**: the scan reports `file:line`, the calculator shows
+  its derivation, and a recommendation without a verification step is
+  marked as not verified.
 - **Scale-honest**: ten transactions per second gets a relational database
   and a unique constraint, not a sharding plan.
-- **Token efficient**: one reference per case study loads only when that
-  system is asked about; the calculator returns a compact table instead of
-  paragraphs of arithmetic.
-- **Respectful of your decisions**: in a design review, a documented,
-  deliberate choice is reported as *kept*, not rewritten.
-- **Read-only**: the skills advise on designs and change nothing.
+- **Token efficient**: one scan returns a compact inventory instead of
+  dozens of exploratory searches, and each case-study reference loads
+  only when that system is in play.
+- **Respectful of your decisions**: documented, deliberate choices are
+  reported as *kept*, not rewritten.
+- **Read-only by design**: both scripts never write; recommendations are
+  applied only after you accept them by ID.
 
 ## Sources
 
@@ -288,9 +333,10 @@ Chapter-level map and further reading: [references/sources.md](references/source
 
 ## Contributing
 
-Contributions are welcome — especially corrections to a case study,
-dated facts that have moved since the books were written,
-and evals for behaviour the skills get wrong.
+Contributions are welcome — especially scanner detections and rules found
+on real projects, false positives with a minimal reproduction,
+corrections to a case study, and dated facts that have moved since the
+books were written.
 Please read [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## About the author

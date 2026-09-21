@@ -1,0 +1,53 @@
+{
+  "skill_name": "system-design-advisor",
+  "evals": [
+    {
+      "id": 1,
+      "name": "review-existing-checkout",
+      "prompt": "Review evals/files/Checkout for design problems before we grow 10x. Recommendations only, don't edit anything.",
+      "expected_output": "A scan-first review: inventory (MySQL, Redis, Stripe, Celery), findings SD001/SD004 (float money), SD002 (FOR UPDATE), SD003 (modulo worker placement), SD007 (rank by COUNT), a missing idempotency key on POST /v1/checkout, MySQL reported as kept because the README documents it, a 10x estimate from the calculator, and recommendations with IDs, sources and statuses.",
+      "files": [
+        "evals/files/Checkout"
+      ],
+      "expectations": [
+        "Runs scripts/arch_scan.py (or reports its inventory and findings) before recommending anything.",
+        "Flags money stored as float in checkout.py and DOUBLE in the migration (SD001/SD004), citing Vol. 2 ch. 11.",
+        "Flags that POST /v1/checkout has no idempotency key and that the FOR UPDATE check does not protect against a retried Stripe call, citing Vol. 2 ch. 7 or ch. 11.",
+        "Flags hash(seller_id) % len(workers) as modulo placement (SD003), citing Vol. 1 ch. 5.",
+        "Flags the seller rank COUNT(*) query (SD007) and proposes a sorted set, citing Vol. 2 ch. 10.",
+        "Reports the MySQL choice as kept because the README documents it as deliberate.",
+        "Uses scripts/estimate.py (or shows its table) for the 10x traffic figure instead of prose arithmetic.",
+        "Every recommendation has a stable ID, a source, a trade-off and a status.",
+        "No file under evals/files/Checkout is modified."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "capacity-plan-real-numbers",
+      "prompt": "Our photo-sharing API has 2M DAU, each uploads 3 photos a day (avg 2 MB) and views 60. We keep photos 3 years. Peak is 3x. What breaks first when we double, and what do we change?",
+      "expected_output": "Calculator table (writes ~70/s, reads ~1.4k/s, ~12 TB/day, ~13 PB retained), egress as the first bottleneck, CDN and object storage recommendation with cost note, metadata DB read replicas, stateless API tier, each citing Vol. 1 ch. 1 and ch. 14/15 patterns.",
+      "files": [],
+      "expectations": [
+        "Produces an estimate table with derivations (or the calculator's output) rather than arithmetic in prose.",
+        "Identifies egress bandwidth or storage growth as the first bottleneck with a number.",
+        "Recommends a CDN and object storage for photos, citing Vol. 1 ch. 1 (CDN) and ch. 14 or ch. 15.",
+        "States the trade-off (CDN cost per GB) instead of only the benefit.",
+        "Names what to measure after the change."
+      ]
+    },
+    {
+      "id": 3,
+      "name": "mock-interviewer",
+      "prompt": "Be my interviewer. Give me a system design question and don't tell me the answer; push back on my choices.",
+      "expected_output": "One problem statement, scope answers with concrete numbers when asked, no solution revealed, prompts for estimates and a deep dive, and a graded debrief at the end.",
+      "files": [],
+      "expectations": [
+        "Poses a single system design problem in one or two sentences.",
+        "Does not present the architecture or solution unprompted.",
+        "Answers scope questions with concrete numbers (users, QPS, retention) the way the chapters do.",
+        "Asks the candidate for back-of-the-envelope estimates.",
+        "Offers a debrief structured by the framework's steps and dos/don'ts."
+      ]
+    }
+  ]
+}

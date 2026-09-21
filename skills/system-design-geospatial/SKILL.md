@@ -16,10 +16,10 @@ description: >-
 
 Three case studies that turn two-dimensional positions into one-dimensional
 keys and then apply the usual caching and fan-out patterns.
-The orchestrator (`system-design-interview`) owns scope, estimates and the
+The advisor (`system-design-advisor`) owns the scan, the numbers and the
 answer format; this skill owns the case studies.
 
-| System | Reference | The deep dive the interviewer expects |
+| System | Reference | Where the risk is |
 | --- | --- | --- |
 | Proximity service | `references/proximity-service.md` | Geohash precision by radius; neighbour cells; quadtree trade-offs; cache keys |
 | Nearby friends | `references/nearby-friends.md` | Pub/sub fan-out; CPU-bound Redis cluster sizing; resubscription on resize |
@@ -30,12 +30,29 @@ answer format; this skill owns the case studies.
 1. Decide first whether positions are **static** (businesses: proximity
    service) or **moving** (people, vehicles: nearby friends);
    the index and the transport differ completely.
-2. Run the orchestrator's estimate step;
+2. On a real project, run `scripts/arch_scan.py`;
+   PostGIS, geohash or H3 libraries, WebSocket servers and Redis in its
+   inventory say which reference to load.
+   For a new design, run the advisor's estimate step;
    update interval × concurrent users is the number that sizes everything.
 3. Load the one reference the request names;
    Maps borrows the location pipeline from nearby friends and the geohash
    from the proximity service.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+
+## On a real project
+
+- **Radius search**: find the index behind the query (bounding box on
+  lat/long columns is `RC-2.1` territory), whether neighbouring cells are
+  included, and the cache key.
+- **Live location**: find the update interval, the TTL on cached
+  positions, the fan-out mechanism and how it is sized (pushes per second),
+  and the retention of location history.
+- **Maps and routing**: find tile generation and caching, the zoom levels
+  served, whether tiles are raster or vector, and how routes are
+  recomputed when traffic changes.
+- **Privacy**: find the opt-in, the retention policy and the GDPR/CCPA
+  deletion path.
 
 ## Cross-cutting rules
 
@@ -60,6 +77,8 @@ answer format; this skill owns the case studies.
 - Client-side tile URL computation is a commitment you cannot revoke.
 - Rendering whole maps server-side instead of tiles cannot be cached.
 
-Shared references: `references/estimation-cheatsheet.md`,
-`references/building-blocks.md`, `references/design-format.md`;
-calculator: `scripts/estimate.py`.
+Shared references: `references/review-checklist.md`,
+`references/estimation-cheatsheet.md`, `references/building-blocks.md`,
+`references/design-format.md`;
+scripts: `scripts/arch_scan.py` (read-only project scan),
+`scripts/estimate.py` (calculator).

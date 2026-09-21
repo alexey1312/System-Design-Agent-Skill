@@ -7,12 +7,12 @@
     "email": "alexey1312ru@gmail.com"
   },
   "metadata": {
-    "description": "System design interviews and design reviews grounded in the System Design Interview books."
+    "description": "System design reference and assistant for real projects, grounded in the System Design Interview books."
   },
   "plugins": [
     {
       "name": "system-design-skills",
-      "description": "Scope, estimate, design, deep-dive and wrap up any system design question, with 28 condensed case studies and a deterministic estimation calculator.",
+      "description": "Scan a codebase, review it against a chapter-backed checklist, size the next 10x with a deterministic calculator, and write design documents with trade-offs; 28 condensed case studies.",
       "repository": "https://github.com/alexey1312/System-Design-Agent-Skill",
       "version": "1.0.0",
       "author": {
@@ -21,8 +21,19 @@
       },
       "license": "MIT",
       "category": "development",
-      "keywords": ["system-design", "interview", "distributed-systems", "architecture", "scalability"],
-      "tags": ["system-design", "interview-prep", "architecture", "agent-skill"],
+      "keywords": [
+        "system-design",
+        "architecture",
+        "design-review",
+        "distributed-systems",
+        "scalability"
+      ],
+      "tags": [
+        "system-design",
+        "architecture",
+        "design-review",
+        "agent-skill"
+      ],
       "source": "./"
     }
   ]

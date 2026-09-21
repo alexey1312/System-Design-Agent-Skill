@@ -4,6 +4,11 @@ Thanks for helping keep these skills accurate.
 
 ## Good contributions
 
+- **Scanner detections and rules.**
+  Add a `Technology` or a `Rule` to `scripts/arch_scan.py` with a chapter
+  citation, a positive and a negative test in `tests/test_arch_scan.py`,
+  and a row in `DESIGN-CHECKS.md`.
+- **False positives** found on real projects, with a minimal reproduction.
 - **Corrections to a case study.**
   Name the volume and chapter, say what the reference gets wrong,
   and rewrite it in your own words.

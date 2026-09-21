@@ -8,10 +8,18 @@ They advise; they do not change the user's code.
   A design answer starts with requirements and assumptions,
   never with a diagram.
   `references/design-format.md` is the shape every answer takes.
-- **Numbers come from `scripts/estimate.py`.**
+- **Scan before recommending.**
+  On a real project, `scripts/arch_scan.py` runs first and its inventory,
+  findings and questions frame the review.
+  Findings are one-line heuristics; read the code around them.
+  A choice the project documents as deliberate is reported as *kept*.
+- **Numbers come from metrics or `scripts/estimate.py`.**
   Never do estimation arithmetic in prose;
-  run the calculator and show its table with the assumptions.
-  The calculator reads nothing and writes nothing; keep it that way.
+  name the dashboard, or run the calculator and show its table with the
+  assumptions.
+- **Both scripts are read-only.**
+  `arch_scan.py` and `estimate.py` must never write to the scanned project
+  or anywhere else; `test_scan_does_not_modify_files` guards the scanner.
 - **Every pattern cites a chapter** (`references/sources.md`).
   Anything not from the books is labelled *inference*.
   New reference material must name the volume and chapter it condenses.
@@ -19,7 +27,7 @@ They advise; they do not change the user's code.
   The upstream notes carry no licence and the books are copyrighted;
   condense in your own words and never copy the figures.
 - **Shared files have one source.**
-  Edit `references/*.md` and `scripts/*.py` at the root,
+  Edit `references/*.md` and `scripts/{estimate,arch_scan}.py` at the root,
   then run `python3 scripts/sync_skill_copies.py`.
   Never edit the copies under `skills/*/references` or `skills/*/scripts`
   that the sync script owns.
@@ -28,6 +36,9 @@ They advise; they do not change the user's code.
   and the `name` equal to the directory name.
 - **Calculator changes need tests** in `tests/test_estimate.py`,
   including one that reproduces a figure from a chapter.
+- **Scanner changes need tests** for a positive and a negative case in
+  `tests/test_arch_scan.py`, a `source` that names a chapter (or says
+  *inference*), references that exist, and a row in `DESIGN-CHECKS.md`.
 - **Behaviour changes need evals.**
   Each skill keeps skill-creator evals in `skills/<skill>/evals/`
   (`evals.json` and `trigger-evals.json`).

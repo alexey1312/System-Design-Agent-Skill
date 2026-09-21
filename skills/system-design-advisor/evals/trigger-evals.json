@@ -1,14 +1,6 @@
 [
   {
-    "query": "how would you design instagram? i have an interview at a faang company next week",
-    "should_trigger": true
-  },
-  {
-    "query": "give me a mock system design interview, you're the interviewer",
-    "should_trigger": true
-  },
-  {
-    "query": "estimate QPS and storage for a service with 20M DAU posting 3 times a day",
+    "query": "review our backend architecture before we scale, what's going to break first",
     "should_trigger": true
   },
   {
@@ -16,15 +8,27 @@
     "should_trigger": true
   },
   {
+    "query": "should we add redis in front of the orders table or add read replicas",
+    "should_trigger": true
+  },
+  {
+    "query": "estimate QPS and storage for a service with 20M DAU posting 3 times a day",
+    "should_trigger": true
+  },
+  {
     "query": "SQL or NoSQL for a social app's main store? we expect heavy reads",
     "should_trigger": true
   },
   {
-    "query": "walk me through the 4-step framework for system design interviews",
+    "query": "look at this repo and tell me where the single points of failure are",
     "should_trigger": true
   },
   {
-    "query": "review our architecture doc for a ticketing platform and tell me what's missing",
+    "query": "how would you design instagram? i have an interview at a faang company next week",
+    "should_trigger": true
+  },
+  {
+    "query": "give me a mock system design interview, you're the interviewer",
     "should_trigger": true
   },
   {
@@ -37,6 +41,10 @@
   },
   {
     "query": "how many nines is 5 minutes of downtime a year",
+    "should_trigger": true
+  },
+  {
+    "query": "write a design doc for moving our cron-based exports to a queue with workers",
     "should_trigger": true
   },
   {
@@ -69,6 +77,10 @@
   },
   {
     "query": "design a logo for my startup",
+    "should_trigger": false
+  },
+  {
+    "query": "rename this variable across the module",
     "should_trigger": false
   }
 ]

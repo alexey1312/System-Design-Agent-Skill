@@ -16,10 +16,10 @@ description: >-
 # Infrastructure components
 
 Seven case studies that other designs lean on.
-The orchestrator (`system-design-interview`) owns scope, estimates and the
+The advisor (`system-design-advisor`) owns the scan, the numbers and the
 answer format; this skill owns the mechanisms.
 
-| System | Reference | The deep dive the interviewer expects |
+| System | Reference | Where the risk is |
 | --- | --- | --- |
 | Rate limiter | `references/rate-limiter.md` | Algorithm choice; atomic counters in Redis; 429 with headers |
 | Consistent hashing | `references/consistent-hashing.md` | Ring, virtual nodes, which keys move |
@@ -31,15 +31,37 @@ answer format; this skill owns the mechanisms.
 
 ## How to use
 
-1. Run the orchestrator's scope and estimate steps first;
-   these designs are parameterised by QPS, key size and retention.
+1. On a real project, run `scripts/arch_scan.py` first;
+   its inventory says which of these seven components the project already
+   runs and which reference to load.
+   For a new design, run the advisor's scope and estimate steps;
+   these components are parameterised by QPS, key size and retention.
 2. Load the one reference the request names.
    Load a second only when the design composes them
    (the key-value store uses consistent hashing; the metrics pipeline uses
    the message queue).
 3. Present the chapter's progression: naive approach, its failure, the fix.
-   Interviewers grade the reasoning, not the final diagram.
+   Reviewers and interviewers grade the reasoning, not the final diagram.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+
+## On a real project
+
+- **Rate limiter**: find the middleware or gateway config;
+  which algorithm, where the counters live, whether the update is atomic,
+  what the client receives (429, headers).
+  Scan finding `SD006` marks `KEYS *` on the same Redis.
+- **Consistent hashing**: scan finding `SD003` marks `hash % N` placement;
+  read how the pool is resized and what happens to cached keys.
+- **Key-value store**: find the replication factor and the consistency
+  level per query; ask which writes may be lost during a partition.
+- **Unique IDs**: find the generator; check time-sortability, the epoch,
+  and what happens on clock drift.
+- **Message queue**: find producer acks, consumer commit order, partition
+  key, consumer-group size versus partitions, retention, and lag alerts.
+- **Object storage**: find multipart handling, checksums, lifecycle rules
+  and who deletes orphaned parts.
+- **Metrics**: find the scrape or push path, label cardinality, retention
+  and downsampling, and which alerts page a human.
 
 ## Cross-cutting rules
 
@@ -71,6 +93,8 @@ answer format; this skill owns the mechanisms.
 - Sharding the object table by bucket alone creates hot shards.
 - Label cardinality is what kills a time-series database.
 
-Shared references: `references/estimation-cheatsheet.md`,
-`references/building-blocks.md`, `references/design-format.md`;
-calculator: `scripts/estimate.py`.
+Shared references: `references/review-checklist.md`,
+`references/estimation-cheatsheet.md`, `references/building-blocks.md`,
+`references/design-format.md`;
+scripts: `scripts/arch_scan.py` (read-only project scan),
+`scripts/estimate.py` (calculator).

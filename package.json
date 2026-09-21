@@ -1,12 +1,18 @@
 {
   "name": "system-design-agent-skill",
   "private": true,
-  "description": "Agent Skills for system design interviews and design reviews, grounded in the System Design Interview books.",
+  "description": "Agent Skills that act as a system design reference and assistant on real projects, grounded in the System Design Interview books.",
   "license": "MIT",
-  "keywords": ["pi-package", "agent-skill", "system-design", "interview"],
+  "keywords": [
+    "pi-package",
+    "agent-skill",
+    "system-design",
+    "architecture",
+    "design-review"
+  ],
   "pi": {
     "skills": [
-      "./skills/system-design-interview",
+      "./skills/system-design-advisor",
       "./skills/system-design-infrastructure",
       "./skills/system-design-content-platforms",
       "./skills/system-design-realtime-messaging",

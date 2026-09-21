@@ -1,0 +1,5 @@
+flask==3.0
+sqlalchemy==2.0
+redis==5.0
+stripe==8.0
+celery==5.3

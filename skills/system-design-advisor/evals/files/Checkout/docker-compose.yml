@@ -1,0 +1,14 @@
+services:
+  api:
+    build: .
+    environment:
+      DATABASE_URL: mysql://checkout:secret@db/checkout
+      REDIS_URL: redis://cache:6379/0
+      STRIPE_SECRET_KEY: sk_test_placeholder
+  db:
+    image: mysql:8
+  cache:
+    image: redis:7
+  worker:
+    build: .
+    command: celery -A app.worker worker

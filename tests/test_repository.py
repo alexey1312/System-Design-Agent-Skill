@@ -91,7 +91,7 @@ class SkillTests(unittest.TestCase):
     def test_skill_names_referenced_in_docs_exist(self) -> None:
         pattern = re.compile(r"\bsystem-design-[a-z-]+[a-z]\b")
         plugin = json.loads((ROOT / ".claude-plugin/plugin.json").read_text(encoding="utf-8"))["name"]
-        for path in [*(ROOT / "skills").rglob("*.md"), *(ROOT / "references").glob("*.md"), ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "CONTRIBUTING.md"]:
+        for path in [*(ROOT / "skills").rglob("*.md"), *(ROOT / "references").glob("*.md"), ROOT / "README.md", ROOT / "AGENTS.md", ROOT / "CONTRIBUTING.md", ROOT / "DESIGN-CHECKS.md"]:
             text = re.sub(r"https?://\S+", "", path.read_text(encoding="utf-8"))
             for name in set(pattern.findall(text)) - {plugin, "system-design-agent-skill", "system-design-notes"}:
                 with self.subTest(file=str(path.relative_to(ROOT)), name=name):
@@ -136,10 +136,25 @@ class ChapterCoverageTests(unittest.TestCase):
                     self.assertIn((skill, f"references/{path.name}"), mapped)
 
     def test_specialists_are_listed_in_the_orchestrator(self) -> None:
-        text = (ROOT / "skills/system-design-interview/SKILL.md").read_text(encoding="utf-8")
+        text = (ROOT / "skills/system-design-advisor/SKILL.md").read_text(encoding="utf-8")
         for skill in SKILLS:
-            if skill != "system-design-interview":
+            if skill != "system-design-advisor":
                 self.assertIn(f"`{skill}`", text)
+
+    def test_design_checks_list_every_scanner_rule(self) -> None:
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import arch_scan  # noqa: WPS433
+
+        text = (ROOT / "DESIGN-CHECKS.md").read_text(encoding="utf-8")
+        for rule in arch_scan.RULES:
+            with self.subTest(rule.id):
+                self.assertIn(f"| {rule.id} |", text)
+
+    def test_checklist_ids_are_unique(self) -> None:
+        text = (ROOT / "references/review-checklist.md").read_text(encoding="utf-8")
+        ids = re.findall(r"^\| (RC-\d+\.\d+) \|", text, re.M)
+        self.assertGreaterEqual(len(ids), 40)
+        self.assertEqual(len(ids), len(set(ids)))
 
 
 class EvalTests(unittest.TestCase):

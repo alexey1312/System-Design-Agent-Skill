@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 ALL_SKILLS = [
-    "system-design-interview",
+    "system-design-advisor",
     "system-design-infrastructure",
     "system-design-content-platforms",
     "system-design-realtime-messaging",
@@ -31,7 +31,9 @@ COPIES: dict[str, list[str]] = {
     "references/estimation-cheatsheet.md": ALL_SKILLS,
     "references/design-format.md": ALL_SKILLS,
     "references/building-blocks.md": ALL_SKILLS,
+    "references/review-checklist.md": ALL_SKILLS,
     "scripts/estimate.py": ALL_SKILLS,
+    "scripts/arch_scan.py": ALL_SKILLS,
 }
 
 
