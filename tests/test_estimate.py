@@ -27,6 +27,7 @@ class ParsingTests(unittest.TestCase):
         self.assertEqual(estimate.parse_size("1MB"), 1e6)
         self.assertEqual(estimate.parse_size("2.5 GB"), 2.5e9)
         self.assertEqual(estimate.parse_size("140 bytes"), 140)
+        self.assertEqual(estimate.parse_size("0"), 0)
 
     def test_durations(self) -> None:
         self.assertEqual(estimate.parse_duration_days("5y"), 1825)
@@ -76,6 +77,34 @@ class TrafficTests(unittest.TestCase):
         self.assertEqual(human["write_qps"], "3.47K")
         self.assertEqual(human["storage_per_day"], "30.1 TB")
         self.assertEqual(human["storage_retained"], "54.9 PB")
+
+    def test_qps_and_events_inputs(self) -> None:
+        by_qps = estimate.traffic(qps=5000, payload=100, read_write_ratio=0)
+        self.assertAlmostEqual(by_qps["writes_per_day"], 5000 * 86_400)
+        self.assertAlmostEqual(by_qps["write_qps"], 5000)
+        by_events = estimate.traffic(events_per_day=240_000, payload=500)
+        self.assertAlmostEqual(by_events["write_qps"], 2.78, delta=0.01)
+        self.assertIsNone(by_events["assumptions"]["dau"])
+        with self.assertRaises(estimate.ParseError):
+            estimate.traffic(dau=1e6, qps=10, payload=1)
+
+    def test_served_size_rows_and_egress_cost(self) -> None:
+        result = estimate.traffic(
+            dau=2e6, actions_per_day=3, payload=0, media_share=1, media_size=2e6,
+            served_size=300e3, read_write_ratio=20, peak_factor=3, retention_days=3 * 365,
+            row_bytes=500, egress_cost_per_gb=0.02,
+        )
+        self.assertAlmostEqual(result["egress_bytes_per_second"], 6e6 * 20 / 86_400 * 300e3, delta=1)
+        self.assertAlmostEqual(result["peak_egress_bytes_per_second"], result["egress_bytes_per_second"] * 3)
+        self.assertAlmostEqual(result["rows_retained"], 6e6 * 1095)
+        self.assertAlmostEqual(result["metadata_retained_bytes"], 6e6 * 1095 * 500)
+        self.assertAlmostEqual(result["egress_cost_per_day"], 6e6 * 20 * 300e3 / 1e9 * 0.02)
+
+    def test_size(self) -> None:
+        result = estimate.size(count=73e6, bytes_each=1000, replication=3)
+        self.assertAlmostEqual(result["bytes"], 219e9)
+        grown = estimate.size(count=1e6, bytes_each=100, growth_per_day=1000, retention_days=365)
+        self.assertAlmostEqual(grown["count_after_retention"], 1_365_000)
 
     def test_replication_and_servers(self) -> None:
         result = estimate.traffic(dau=1e6, actions_per_day=1, payload=1000, replication=3, server_qps=1)
@@ -135,6 +164,10 @@ class CliTests(unittest.TestCase):
         output = self.run_cli("traffic", "--dau", "10M", "--actions-per-day", "1", "--payload", "1KB")
         self.assertIn("| Write QPS (avg / peak) |", output)
         self.assertIn("Units: decimal", output)
+
+    def test_size_cli(self) -> None:
+        self.assertIn("73M × 1 KB × 3 replicas = 219 GB", self.run_cli("size", "--count", "73M", "--bytes-each", "1KB", "--replication", "3"))
+        self.assertIn("| Write QPS (avg / peak) | 5K / 10K |", self.run_cli("traffic", "--qps", "5000", "--payload", "100B"))
 
     def test_latency_and_powers(self) -> None:
         self.assertIn("Disk seek", self.run_cli("latency"))

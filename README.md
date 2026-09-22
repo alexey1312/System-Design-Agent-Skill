@@ -140,10 +140,11 @@ so your agent reasons over structured output instead of ad-hoc grep.
   the technology inventory with evidence, findings with stable IDs and
   chapter citations, questions for the owners, and the references to load.
   Never writes.
-- `scripts/estimate.py` — turns DAU, actions per day, payload sizes,
-  read/write ratio, peak factor and retention into QPS, storage,
-  bandwidth, cache size and server count, as JSON or a Markdown table
-  with derivations; also the latency and powers-of-two tables and the
+- `scripts/estimate.py` — turns DAU and actions per day, an event count
+  or a QPS figure, plus payload and served sizes, read/write ratio, peak
+  factor and retention into QPS, storage, bandwidth (average and peak),
+  egress cost, metadata rows, cache size and server count, as JSON or a
+  Markdown table with derivations; sizes tables and key spaces; also the latency and powers-of-two tables and the
   downtime behind any availability figure.
   Never writes.
 - `references/` — five shared references (sources, estimation cheat

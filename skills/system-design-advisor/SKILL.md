@@ -72,9 +72,14 @@ Say which one you are borrowing from.
 ### 1. Scan and read
 
 ```bash
-python3 scripts/arch_scan.py <project-root> --format markdown
-python3 scripts/arch_scan.py <project-root> --format json > "$TMPDIR/arch-scan.json"
+python3 -B scripts/arch_scan.py <project-root> --format markdown
+python3 -B scripts/arch_scan.py <project-root> --format json > "$TMPDIR/arch-scan.json"
 ```
+
+(`-B` keeps CPython from writing bytecode next to the scripts.)
+When the system exists but its code was not supplied, skip the scan:
+build the inventory from the description, say which findings a scan would
+have confirmed, and continue with the design document.
 
 The scan lists the stores, caches, queues, indexes, transports and providers
 with `file:line` evidence, flags the code patterns the chapters warn about
@@ -85,7 +90,14 @@ pass `--include-dependencies` only when the owner also owns that code.
 Every finding is a one-line heuristic: read the surrounding code before it
 becomes a recommendation.
 
+The references list is ranked: a finding names the one chapter that fixes
+it, an inventory item its primary chapter, and the *also* rows are for
+when the review turns to that topic; load in that order, not all at once.
+
 Then read the project's own documentation and ask the generated questions.
+When nobody can answer (a non-interactive run, an owner who is away),
+record each question in section 1 as an assumption with the default you
+took, and continue.
 Nothing in the scan replaces the owner's numbers.
 
 ### 2. Establish the numbers
@@ -95,8 +107,17 @@ Production metrics first (name the dashboard); otherwise:
 ```bash
 python3 scripts/estimate.py traffic --dau 2M --actions-per-day 5 --payload 2KB \
   --read-write-ratio 20 --peak-factor 3 --retention 2y --server-qps 500
+python3 scripts/estimate.py traffic --qps 5000 --payload 100B --read-write-ratio 0   # a rate, not users
+python3 scripts/estimate.py traffic --events-per-day 240k --payload 500B --row-bytes 500B
+python3 scripts/estimate.py size --count 100k --bytes-each 100B                      # limiter state, a table
 python3 scripts/estimate.py availability 99.95
 ```
+
+`--served-size` separates what a read returns (a rendition, a page) from
+what a write stores; `--egress-cost-per-gb` prices the read traffic;
+`--row-bytes` counts metadata rows.
+The server count applies to request-bound tiers only;
+byte-bound tiers are sized by the bandwidth rows.
 
 Record the current figures and the next 10×,
 and name which number breaks first.
@@ -114,9 +135,10 @@ note misses, and note deliberate deviations as *kept*.
 Two or three options with a trade-off table
 (cost, complexity, consistency, failure modes, migration effort, chapter),
 then a recommendation.
-For a review, one recommendation per item with a stable ID, the finding,
-why it matters, the source, the change, the trade-off, how to verify,
-the checklist item it closes, and a status (`references/design-format.md`).
+For a review, one recommendation per item with a stable ID (`REC-NN`),
+the finding, why it matters, the source, the change, the trade-off,
+how to verify, the checklist item it closes, and a status
+(`references/design-format.md`).
 Group by correctness, availability, scale, operations.
 
 ### 5. Rollout and verification
@@ -138,8 +160,11 @@ dives from the specialist references, rollout, and open questions.
   answer from the reference with the citation; no document.
 - **Review an existing system**: the real-project workflow above.
 - **Design a new service or change**: the design document.
-- **Capacity planning**: scan for the stores, run the calculator on the real
-  numbers, name the first bottleneck and the chapter that removes it.
+- **Capacity planning**: scan for the stores when there is code, otherwise
+  state the assumed baseline architecture explicitly; run the calculator on
+  the real numbers, including `--served-size` and `--egress-cost-per-gb`
+  for byte-bound tiers; name the first bottleneck and the chapter that
+  removes it, with the verdict conditional on the assumed baseline.
 - **Interview practice**: follow `references/framework.md`;
   as interviewer, withhold the solution and grade against its dos and don'ts.
 

@@ -94,6 +94,17 @@ python3 scripts/estimate.py traffic --dau 150M --actions-per-day 2 \
 - One HDD delivers 100–150 random IOPS (Vol. 2 ch. 9);
   sequential writes are far faster than the number suggests.
 
+## When the unit is not a user
+
+`--dau × --actions-per-day` is the book's habit; a real project often has a
+rate or an event count instead.
+`traffic --qps 5000` takes a rate; `traffic --events-per-day 240k` takes a
+volume (reservations, orders, clicks); `size --count 73M --bytes-each 1KB`
+sizes a table or a limiter's key space.
+`--served-size` separates the object a read returns from the one a write
+stores, `--egress-cost-per-gb` prices the read traffic, and `--row-bytes`
+counts metadata rows.
+
 ## Common estimation targets
 
 | Target | How |

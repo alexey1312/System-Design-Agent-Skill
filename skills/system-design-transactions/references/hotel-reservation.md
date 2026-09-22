@@ -69,9 +69,22 @@ reserved, both update, both commit → 101.
 | --- | --- | --- | --- |
 | Pessimistic locking | `SELECT … FOR UPDATE` | Serialises updates; simple; good under heavy contention | Deadlocks; long locks stall everyone; not recommended here |
 | Optimistic locking | `version` column, compare-and-set, retry on mismatch | No DB locks; fast when conflicts are rare | Many rollbacks under heavy contention |
-| Database constraint | `CHECK (total_inventory - total_reserved >= 0)` | Trivial to implement | Same contention profile; constraints are hard to version-control; not every DB supports them |
+| Database constraint | `CHECK (total_reserved <= total_inventory * 1.1)` — the chapter writes it without the 10 % allowance; with overbooking the ceiling is the allowance | Trivial to implement | Same contention profile; constraints are hard to version-control; not every DB supports them (MySQL before 8.0.16 parses and ignores CHECK) |
 
 Reservation QPS is low, so optimistic locking or a constraint fits.
+
+Two details the chapter leaves implicit (inference):
+
+- **Multi-night stays touch N inventory rows.**
+  Check and update all N in one transaction, in a fixed order (by date),
+  and roll back the whole reservation when any night fails;
+  otherwise a losing booker leaves partial holds behind.
+- **Payment happens outside the inventory transaction.**
+  Reserve as `pending` with an expiry (a 15-minute hold is typical),
+  take payment, then confirm with a conditional update;
+  a sweeper releases expired holds.
+  Holding the row lock across the payment provider's round trip
+  serialises every booking behind the slowest card.
 
 ## Scalability
 

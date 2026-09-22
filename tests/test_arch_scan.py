@@ -119,10 +119,20 @@ class ScanTests(unittest.TestCase):
         self.assertTrue(any("TTL" in q for q in self.result["questions"]))
         self.assertTrue(any("idempotency key reaches the provider" in q for q in self.result["questions"]))
 
-    def test_references_group_by_skill(self) -> None:
+    def test_references_are_ranked_findings_first(self) -> None:
         refs = self.result["references"]
-        self.assertIn("references/consistent-hashing.md", refs["system-design-infrastructure"])
-        self.assertIn("references/payment-system.md", refs["system-design-transactions"])
+        first = refs[0]
+        self.assertEqual(first["priority"], "finding")
+        keyed = {(r["skill"], r["file"]): r for r in refs}
+        hashing = keyed[("system-design-infrastructure", "references/consistent-hashing.md")]
+        self.assertEqual(hashing["priority"], "finding")
+        self.assertIn("SD003", hashing["because"])
+        payments = keyed[("system-design-transactions", "references/payment-system.md")]
+        self.assertIn("SD001", payments["because"])
+        nearby = keyed[("system-design-geospatial", "references/nearby-friends.md")]
+        self.assertEqual(nearby["priority"], "also")
+        priorities = [r["priority"] for r in refs]
+        self.assertEqual(priorities, sorted(priorities, key=("finding", "primary", "also").index))
 
     def test_scan_does_not_modify_files(self) -> None:
         def digest() -> dict[str, str]:

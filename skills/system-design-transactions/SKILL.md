@@ -42,6 +42,10 @@ answer format; this skill owns the case studies.
 3. Lead with the failure that costs money (double booking, double charge,
    lost transfer, unfair fill) and design backwards from it.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+5. When there is nobody to ask (a non-interactive run, an owner who is
+   away), write each open question into section 1 of the document as an
+   assumption with the default you took, and continue
+   (`references/design-format.md` › Rules).
 
 ## On a real project
 

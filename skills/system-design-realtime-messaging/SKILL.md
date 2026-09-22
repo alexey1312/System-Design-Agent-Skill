@@ -42,6 +42,10 @@ answer format; this skill owns the case studies.
 3. State the delivery guarantee up front (at-most, at-least, exactly-once)
    and the mechanism that provides it.
 4. Cite the chapter (`references/sources.md`) and label your own additions.
+5. When there is nobody to ask (a non-interactive run, an owner who is
+   away), write each open question into section 1 of the document as an
+   assumption with the default you took, and continue
+   (`references/design-format.md` › Rules).
 
 ## On a real project
 

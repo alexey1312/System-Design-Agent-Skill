@@ -52,9 +52,11 @@ Deep dive: <the 2–3 components that carry the risk, each with alternatives>
 When reviewing an existing system, start from `scripts/arch_scan.py`
 and `references/review-checklist.md`,
 then give every recommendation an ID and a status the owner can act on.
+Recommendation IDs are `REC-NN`; scanner findings keep their rule IDs
+(`SD001`…), so the two never read alike.
 
 ```markdown
-### SD-03 · Move rank queries off MySQL
+### REC-03 · Move rank queries off MySQL
 
 - **Finding:** `api/scores.py:41` — `SELECT COUNT(*) FROM leaderboard WHERE score >= …` per request (scan SD007)
 - **Why it matters:** O(N) per request; the table has 25 M rows and p99 is 4 s
@@ -84,9 +86,16 @@ Inside a group, order by user impact, not by file.
 ## Rules
 
 - **Scope before boxes.**
-  If the requirements are unknown, ask; if nobody can answer, write the
-  assumptions into section 1 and continue.
+  If the requirements are unknown, ask.
   Never draw the architecture first.
+- **When nobody can answer** (self-study, a non-interactive run, an owner
+  who is away), write each open question into section 1 as an assumption
+  with the default you took and why, and continue.
+  A review that stops at "please clarify" delivers nothing.
+- **When the system exists but its code is out of reach**, skip the scan,
+  list the inventory from the description you were given, and write the
+  design document with a changes-by-ID table in section 4;
+  say which findings a scan would have confirmed.
 - **Numbers come from metrics or the calculator.**
   Name the dashboard, or run `scripts/estimate.py` and paste its derivation.
   Arithmetic in prose is where estimates go wrong.

@@ -1,0 +1,462 @@
+{
+  "metadata": {
+    "skill_name": "system-design-skills",
+    "skill_path": "<path/to/skill>",
+    "executor_model": "<model-name>",
+    "analyzer_model": "<model-name>",
+    "timestamp": "2026-09-22T03:55:12Z",
+    "evals_run": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "runs_per_configuration": 3
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "time_seconds": 551.7,
+        "tokens": 54309,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Runs scripts/arch_scan.py (or reports its inventory and findings) before recommending anything.",
+          "passed": true,
+          "evidence": "transcript.md step 2: ran scripts/arch_scan.py before any recommendation; outputs/scan.md and scan.json saved"
+        },
+        {
+          "text": "Flags money stored as float in checkout.py and DOUBLE in the migration (SD001/SD004), citing Vol. 2 ch. 11.",
+          "passed": true,
+          "evidence": "review.md SD-03 'Money in integer minor units' cites Vol. 2 ch. 11 \u203a API; scan.md lists SD001 app/checkout.py:14 and SD004 db/001_orders.sql:4"
+        },
+        {
+          "text": "Flags that POST /v1/checkout has no idempotency key and that the FOR UPDATE check does not protect against a retried Stripe call, citing Vol. 2 ch. 7 or ch. 11.",
+          "passed": true,
+          "evidence": "SD-01 'Idempotency key on checkout, enforced by a unique constraint' (Vol. 2 ch. 11 \u203a Exactly-once) and SD-04 'Take the PSP call out of the locked transaction' (Vol. 2 ch. 7) explain that FOR UPDATE does not protect a retried Stripe call"
+        },
+        {
+          "text": "Flags hash(seller_id) % len(workers) as modulo placement (SD003), citing Vol. 1 ch. 5.",
+          "passed": true,
+          "evidence": "SD-07 'Payouts are claimed, not hashed to a worker' cites Vol. 1 ch. 5 \u203a The rehashing problem; scan finding SD003 at app/checkout.py:42"
+        },
+        {
+          "text": "Flags the seller rank COUNT(*) query (SD007) and proposes a sorted set, citing Vol. 2 ch. 10.",
+          "passed": true,
+          "evidence": "SD-10 'Seller rank: index first, sorted set when the data says so' cites Vol. 2 ch. 10 \u203a Relational database solution; scan finding SD007"
+        },
+        {
+          "text": "Reports the MySQL choice as kept because the README documents it as deliberate.",
+          "passed": true,
+          "evidence": "SD-12 'MySQL for orders' \u2014 Status: kept, citing the README decision log"
+        },
+        {
+          "text": "Uses scripts/estimate.py (or shows its table) for the 10x traffic figure instead of prose arithmetic.",
+          "passed": true,
+          "evidence": "transcript.md: estimate.py runs; outputs/estimates.md holds the calculator tables for today and 10x; review.md \u00a72 pastes them"
+        },
+        {
+          "text": "Every recommendation has a stable ID, a source, a trade-off and a status.",
+          "passed": true,
+          "evidence": "All 15 SD-NN blocks carry Source, Trade-off and Status lines (grep count matches); statuses used: proposed, needs-data, kept"
+        },
+        {
+          "text": "No file under evals/files/Checkout is modified.",
+          "passed": true,
+          "evidence": "grade_helper: sha256 of inputs/Checkout equals the repository fixture"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 572.8,
+        "tokens": 49520,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Produces an estimate table with derivations (or the calculator's output) rather than arithmetic in prose.",
+          "passed": true,
+          "evidence": "outputs/estimates.md holds 15 estimate.py runs; design.md \u00a72 pastes the tables with derivations"
+        },
+        {
+          "text": "Identifies egress bandwidth or storage growth as the first bottleneck with a number.",
+          "passed": true,
+          "evidence": "design.md 'what breaks first': the read byte path at the origin (5.56 GB/s avg / 16.7 GB/s peak) and the storage fill rate (72 TB/day raw)"
+        },
+        {
+          "text": "Recommends a CDN and object storage for photos, citing Vol. 1 ch. 1 (CDN) and ch. 14 or ch. 15.",
+          "passed": true,
+          "evidence": "Recommends renditions via CDN and pre-signed direct upload to object storage, citing Vol. 1 ch. 1, ch. 14, ch. 15 and Vol. 2 ch. 9"
+        },
+        {
+          "text": "States the trade-off (CDN cost per GB) instead of only the benefit.",
+          "passed": true,
+          "evidence": "CDN cost stated: $9,602/day vs $1,442/day at the 2020 $0.02/GB figure, labelled as dated"
+        },
+        {
+          "text": "Names what to measure after the change.",
+          "passed": true,
+          "evidence": "\u00a75 lists alerts and what to measure after each change"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 472.3,
+        "tokens": 33072,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Proposes the room_type_inventory table with total_inventory and total_reserved per date.",
+          "passed": true,
+          "evidence": "design.md data model: room_type_inventory(hotel_id, room_type_id, date, total_inventory, total_reserved, overbook_pct, version)"
+        },
+        {
+          "text": "Uses an idempotency key (reservation_id) with a unique constraint for the same-user double click.",
+          "passed": true,
+          "evidence": "reservation keyed by client-generated reservation_id as idempotency key with a unique constraint"
+        },
+        {
+          "text": "Recommends optimistic locking or a database CHECK constraint and explains why pessimistic locking is not preferred.",
+          "passed": true,
+          "evidence": "Trade-off table of pessimistic / optimistic / constraint; recommends optimistic compare-and-set on version plus CHECK backstop; pessimistic held in reserve for a measured hot cell"
+        },
+        {
+          "text": "States the overbooking check as total_reserved + n <= 110% of total_inventory.",
+          "passed": true,
+          "evidence": "Availability check written as (total_reserved + n) * 100 <= total_inventory * (100 + overbook_pct), i.e. 110 %"
+        },
+        {
+          "text": "Cites Vol. 2 ch. 7 (or chapter 22 in the upstream numbering).",
+          "passed": true,
+          "evidence": "Cites Vol. 2 ch. 7 throughout"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 481.8,
+        "tokens": 31886,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends the token bucket because bursts must be allowed.",
+          "passed": true,
+          "evidence": "design.md recommends token bucket per client key because bursts must pass"
+        },
+        {
+          "text": "Places the limiter in the API gateway or middleware given the microservice architecture.",
+          "passed": true,
+          "evidence": "Placed as middleware in the API gateway fronting the 40 services"
+        },
+        {
+          "text": "Stores counters in Redis and addresses the read-modify-write race (Lua script or sorted set).",
+          "passed": true,
+          "evidence": "Bucket state in Redis, one Lua script per request for atomic check-and-take"
+        },
+        {
+          "text": "Mentions returning HTTP 429 with rate-limit headers.",
+          "passed": true,
+          "evidence": "429 with X-Ratelimit-Limit/Remaining/Retry-After"
+        },
+        {
+          "text": "Compares at least two alternative algorithms with their drawbacks.",
+          "passed": true,
+          "evidence": "Sliding window counter, leaking bucket, fixed window and sliding log tabled and rejected with reasons"
+        },
+        {
+          "text": "Cites Vol. 1 ch. 4 (or chapter 4).",
+          "passed": true,
+          "evidence": "Cites Vol. 1 ch. 4"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.3333,
+        "passed": 3,
+        "failed": 6,
+        "total": 9,
+        "time_seconds": 601.5,
+        "tokens": 26252,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Runs scripts/arch_scan.py (or reports its inventory and findings) before recommending anything.",
+          "passed": false,
+          "evidence": "No scan script exists without the skill; transcript shows manual file reads only"
+        },
+        {
+          "text": "Flags money stored as float in checkout.py and DOUBLE in the migration (SD001/SD004), citing Vol. 2 ch. 11.",
+          "passed": false,
+          "evidence": "Float money found (\u00a73.1: int(19.99*100)==1998, DOUBLE column) but no chapter citation anywhere in the output"
+        },
+        {
+          "text": "Flags that POST /v1/checkout has no idempotency key and that the FOR UPDATE check does not protect against a retried Stripe call, citing Vol. 2 ch. 7 or ch. 11.",
+          "passed": false,
+          "evidence": "Missing idempotency key and FOR UPDATE-through-Stripe found (\u00a73.1, \u00a73.2) but no chapter citation"
+        },
+        {
+          "text": "Flags hash(seller_id) % len(workers) as modulo placement (SD003), citing Vol. 1 ch. 5.",
+          "passed": false,
+          "evidence": "hash-modulo worker_for found (\u00a73.4 'Payout worker partitioning') but no citation of Vol. 1 ch. 5"
+        },
+        {
+          "text": "Flags the seller rank COUNT(*) query (SD007) and proposes a sorted set, citing Vol. 2 ch. 10.",
+          "passed": false,
+          "evidence": "Seller rank O(sellers) found and Redis ZSET proposed (\u00a74.4) but no citation of Vol. 2 ch. 10"
+        },
+        {
+          "text": "Reports the MySQL choice as kept because the README documents it as deliberate.",
+          "passed": true,
+          "evidence": "\u00a71: 'The MySQL decision in the README is sound and nothing here requires' changing it; \u00a74 'stays on MySQL'"
+        },
+        {
+          "text": "Uses scripts/estimate.py (or shows its table) for the 10x traffic figure instead of prose arithmetic.",
+          "passed": true,
+          "evidence": "\u00a72 table 'Numbers this review is calibrated against' with today / 10x rows, not prose arithmetic"
+        },
+        {
+          "text": "Every recommendation has a stable ID, a source, a trade-off and a status.",
+          "passed": false,
+          "evidence": "Findings are numbered sections with severity, no per-item stable ID, source or status vocabulary"
+        },
+        {
+          "text": "No file under evals/files/Checkout is modified.",
+          "passed": true,
+          "evidence": "grade_helper: sha256 of inputs/Checkout equals the repository fixture"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6,
+        "passed": 3,
+        "failed": 2,
+        "total": 5,
+        "time_seconds": 451.8,
+        "tokens": 25527,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Produces an estimate table with derivations (or the calculator's output) rather than arithmetic in prose.",
+          "passed": true,
+          "evidence": "capacity_model.py generates the tables in design.md (rates, stock, cost, margins) \u2014 not prose arithmetic"
+        },
+        {
+          "text": "Identifies egress bandwidth or storage growth as the first bottleneck with a number.",
+          "passed": false,
+          "evidence": "First break named is the image-processing pipeline backlog, then the single-primary metadata DB; egress/storage growth are listed as cost, not as the first bottleneck"
+        },
+        {
+          "text": "Recommends a CDN and object storage for photos, citing Vol. 1 ch. 1 (CDN) and ch. 14 or ch. 15.",
+          "passed": false,
+          "evidence": "CDN and S3 tiering recommended (\u00a75.6, hashed prefix + lifecycle) but no book citation"
+        },
+        {
+          "text": "States the trade-off (CDN cost per GB) instead of only the benefit.",
+          "passed": true,
+          "evidence": "CDN egress cost table at $0.03/GB ($21.6k \u2192 $43.2k)"
+        },
+        {
+          "text": "Names what to measure after the change.",
+          "passed": true,
+          "evidence": "'Leading indicators with act-at thresholds' section"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.6,
+        "passed": 3,
+        "failed": 2,
+        "total": 5,
+        "time_seconds": 599.2,
+        "tokens": 28180,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Proposes the room_type_inventory table with total_inventory and total_reserved per date.",
+          "passed": true,
+          "evidence": "Counter per (hotel_id, room_type_id, night) with total_inventory, overbook_pct, total_reserved"
+        },
+        {
+          "text": "Uses an idempotency key (reservation_id) with a unique constraint for the same-user double click.",
+          "passed": true,
+          "evidence": "Idempotency key unique on reservation; PENDING/CONFIRMED state machine"
+        },
+        {
+          "text": "Recommends optimistic locking or a database CHECK constraint and explains why pessimistic locking is not preferred.",
+          "passed": false,
+          "evidence": "Recommends SELECT \u2026 FOR UPDATE (pessimistic) plus conditional UPDATE plus CHECK; optimistic versioning explicitly rejected ('Workable, not chosen')"
+        },
+        {
+          "text": "States the overbooking check as total_reserved + n <= 110% of total_inventory.",
+          "passed": true,
+          "evidence": "CHECK (total_reserved <= floor(total_inventory * (1 + overbook_pct))) with overbook_pct 0.100"
+        },
+        {
+          "text": "Cites Vol. 2 ch. 7 (or chapter 22 in the upstream numbering).",
+          "passed": false,
+          "evidence": "No chapter citation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8333,
+        "passed": 5,
+        "failed": 1,
+        "total": 6,
+        "time_seconds": 0,
+        "tokens": 11489,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends the token bucket because bursts must be allowed.",
+          "passed": true,
+          "evidence": "Token bucket per client key"
+        },
+        {
+          "text": "Places the limiter in the API gateway or middleware given the microservice architecture.",
+          "passed": true,
+          "evidence": "Enforced once at the API gateway"
+        },
+        {
+          "text": "Stores counters in Redis and addresses the read-modify-write race (Lua script or sorted set).",
+          "passed": true,
+          "evidence": "Shared Redis with an atomic Lua script (token_bucket.lua) via EVALSHA"
+        },
+        {
+          "text": "Mentions returning HTTP 429 with rate-limit headers.",
+          "passed": true,
+          "evidence": "429 with rate-limit headers and retry_after_ms"
+        },
+        {
+          "text": "Compares at least two alternative algorithms with their drawbacks.",
+          "passed": true,
+          "evidence": "Fixed window, sliding log, sliding counter, leaky bucket compared; burst_sim.py evidence"
+        },
+        {
+          "text": "Cites Vol. 1 ch. 4 (or chapter 4).",
+          "passed": false,
+          "evidence": "No chapter citation"
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 1.0,
+        "stddev": 0.0,
+        "min": 1.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 519.65,
+        "stddev": 50.0892,
+        "min": 472.3,
+        "max": 572.8
+      },
+      "tokens": {
+        "mean": 42196.75,
+        "stddev": 11400.4272,
+        "min": 31886,
+        "max": 54309
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.5917,
+        "stddev": 0.2044,
+        "min": 0.3333,
+        "max": 0.8333
+      },
+      "time_seconds": {
+        "mean": 413.125,
+        "stddev": 284.1813,
+        "min": 0,
+        "max": 601.5
+      },
+      "tokens": {
+        "mean": 22862.0,
+        "stddev": 7664.2151,
+        "min": 11489,
+        "max": 28180
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.41",
+      "time_seconds": "+106.5",
+      "tokens": "+19335"
+    }
+  },
+  "notes": [],
+  "model": "claude-fable-5-1",
+  "note": "One run per eval per configuration; the aggregator's 'runs each' line assumed three."
+}

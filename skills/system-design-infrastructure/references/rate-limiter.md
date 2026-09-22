@@ -50,8 +50,10 @@ Uber's `ratelimit` Go package is a leaky-bucket implementation.
 
 ## Architecture
 
-- Counters live in an in-memory store, not a database:
-  Redis `INCR` and `EXPIRE` are the whole data structure.
+- Counters live in an in-memory store, not a database.
+  For a fixed-window counter, Redis `INCR` and `EXPIRE` are the whole data
+  structure; a token bucket keeps two fields per key (tokens, last refill
+  time) and must read, refill and decrement them in one atomic step.
 - Middleware fetches the counter, compares with the rule, and either
   forwards the request or returns 429.
 - Rules are files on disk, cached by workers, refreshed periodically.
@@ -63,6 +65,24 @@ Uber's `ratelimit` Go package is a leaky-bucket implementation.
 
 - **Race conditions** on read-modify-write of a counter.
   Locks are slow; use a Lua script or a Redis sorted set for an atomic check-and-increment.
+  A token-bucket script (inference, not from the chapter):
+
+  ```lua
+  -- KEYS[1] = bucket key; ARGV = rate per second, capacity, now (ms), cost
+  local tokens = tonumber(redis.call('HGET', KEYS[1], 'tokens') or ARGV[2])
+  local last = tonumber(redis.call('HGET', KEYS[1], 'ts') or ARGV[3])
+  tokens = math.min(ARGV[2], tokens + (ARGV[3] - last) / 1000 * ARGV[1])
+  local allowed = tokens >= tonumber(ARGV[4])
+  if allowed then tokens = tokens - ARGV[4] end
+  redis.call('HSET', KEYS[1], 'tokens', tokens, 'ts', ARGV[3])
+  redis.call('PEXPIRE', KEYS[1], math.ceil(ARGV[2] / ARGV[1] * 1000) * 2)
+  return { allowed and 1 or 0, math.floor(tokens) }
+  ```
+
+  One Redis node runs such scripts on the order of 100k per second
+  (inference; measure on your hardware), so 5,000 requests per second is
+  one primary with a replica, and the first thing to break at 10× is that
+  single primary; shard buckets by client key before that.
 - **Synchronization** across many limiter instances.
   Sticky sessions do not scale;
   a centralised store (Redis) is the standard fix.

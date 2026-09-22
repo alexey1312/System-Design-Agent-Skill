@@ -17,7 +17,7 @@
         "Flags the seller rank COUNT(*) query (SD007) and proposes a sorted set, citing Vol. 2 ch. 10.",
         "Reports the MySQL choice as kept because the README documents it as deliberate.",
         "Uses scripts/estimate.py (or shows its table) for the 10x traffic figure instead of prose arithmetic.",
-        "Every recommendation has a stable ID, a source, a trade-off and a status.",
+        "Every recommendation has a stable REC-NN ID, a source, a trade-off and a status.",
         "No file under evals/files/Checkout is modified."
       ]
     },

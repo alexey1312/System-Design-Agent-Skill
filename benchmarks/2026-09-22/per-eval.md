@@ -1,0 +1,10 @@
+| Eval | Configuration | Passed | Tokens | Seconds |
+| --- | --- | --- | --- | --- |
+| review-existing-checkout | with_skill | 9/9 | 110465 | 551.7 |
+| review-existing-checkout | without_skill | 3/9 | 82758 | 601.5 |
+| capacity-plan-real-numbers | with_skill | 5/5 | 117566 | 572.8 |
+| capacity-plan-real-numbers | without_skill | 3/5 | 68822 | 451.8 |
+| double-booking | with_skill | 5/5 | 90224 | 472.3 |
+| double-booking | without_skill | 3/5 | 79777 | 599.2 |
+| rate-limiter-choice | with_skill | 6/6 | 97040 | 481.8 |
+| rate-limiter-choice | without_skill | 5/6 | n/a | n/a |

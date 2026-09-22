@@ -23,6 +23,8 @@ import argparse
 import json
 import re
 import sys
+
+sys.dont_write_bytecode = True
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
@@ -391,17 +393,23 @@ def scan(root: Path, include_dependencies: bool = False) -> dict[str, Any]:
                         )
 
     categories = sorted({item.category for item in inventory.values()})
-    references: dict[str, list[str]] = {}
-    for item in inventory.values():
-        for skill, file in item.references:
-            references.setdefault(skill, [])
-            if file not in references[skill]:
-                references[skill].append(file)
+    # References to load, ranked: a finding names the one chapter that fixes it (load first);
+    # an inventory item lists its primary chapter and, lower down, the chapters that merely use it.
+    ranked: dict[tuple[str, str], dict[str, Any]] = {}
+
+    def add(skill: str, file: str, rank: int, because: str) -> None:
+        entry = ranked.setdefault((skill, file), {"skill": skill, "file": file, "rank": rank, "because": []})
+        entry["rank"] = min(entry["rank"], rank)
+        if because not in entry["because"]:
+            entry["because"].append(because)
+
     for finding in findings:
         for ref in finding["references"]:
-            references.setdefault(ref["skill"], [])
-            if ref["file"] not in references[ref["skill"]]:
-                references[ref["skill"]].append(ref["file"])
+            add(ref["skill"], ref["file"], 0, finding["id"])
+    for item in inventory.values():
+        for position, (skill, file) in enumerate(item.references):
+            add(skill, file, 1 if position == 0 else 2, item.name)
+    references = sorted(ranked.values(), key=lambda e: (e["rank"], e["skill"], e["file"]))
     questions = [q for category in categories for q in QUESTIONS.get(category, [])]
 
     return {
@@ -420,7 +428,10 @@ def scan(root: Path, include_dependencies: bool = False) -> dict[str, Any]:
         "categories": categories,
         "findings": findings,
         "questions": questions,
-        "references": {skill: sorted(files) for skill, files in sorted(references.items())},
+        "references": [
+            {"skill": e["skill"], "file": e["file"], "priority": ("finding", "primary", "also")[e["rank"]], "because": e["because"]}
+            for e in references
+        ],
     }
 
 
@@ -454,9 +465,14 @@ def render_markdown(result: dict[str, Any]) -> str:
     lines.append("")
     lines.append("## References to load")
     lines.append("")
-    for skill, files in result["references"].items():
-        lines.append(f"- `{skill}`: " + ", ".join(f"`{f}`" for f in files))
-    if not result["references"]:
+    lines.append("Findings first, then each technology's primary chapter; the rest only if the review turns to that topic.")
+    lines.append("")
+    if result["references"]:
+        lines.append("| Priority | Skill | Reference | Because |")
+        lines.append("| --- | --- | --- | --- |")
+        for ref in result["references"]:
+            lines.append(f"| {ref['priority']} | `{ref['skill']}` | `{ref['file']}` | {', '.join(ref['because'])} |")
+    else:
         lines.append("- `system-design-advisor`: `references/building-blocks.md`")
     return "\n".join(lines) + "\n"
 
