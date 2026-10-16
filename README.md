@@ -28,6 +28,8 @@ map every part to the chapter that treats it,
 offer options with their costs, recommend, and say how to verify.
 Interview preparation is included as a mode, not the point.
 
+**Website:** <https://blog.kakoulin.com/apps/system-design-agent-skills>
+
 ## Who this is for
 
 - Teams designing a new service or a change
